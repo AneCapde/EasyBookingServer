@@ -2,6 +2,8 @@ package es.deusto.ingenieria.sd.easyB.server.jdo;
 
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Set;
+
 import javax.jdo.annotations.PersistenceCapable;
 import javax.jdo.annotations.Persistent;
 
@@ -16,6 +18,7 @@ public class Reserva {
 	@Persistent(defaultFetchGroup = "true")
 	private Pago pago;
 	private Usuario usuario;
+	private Set<Reserva> reserva;
 	
 	public Pago getPago() {
 		return pago;
@@ -58,6 +61,12 @@ public class Reserva {
 	}
 	public void setUsuario(Usuario usuario) {
 		this.usuario = usuario;
+	}
+	public void add(Reserva reserva) {
+		if (reserva != null && !this.reserva.contains(reserva)) {
+			this.reserva.add(reserva);
+		}
+		
 	}
 	
 	

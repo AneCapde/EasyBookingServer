@@ -1,5 +1,7 @@
 package es.deusto.ingenieria.sd.easyB.server.jdo;
 
+import java.util.Set;
+
 import javax.jdo.annotations.PersistenceCapable;
 
 @PersistenceCapable(detachable = "true")
@@ -7,6 +9,7 @@ public class Aeropuerto {
 
 	private int cod_aeropuerto;
 	private String nombre;
+	private Set<Aeropuerto> aeropuerto;
 	
 	
 	public int getCod_aeropuerto() {
@@ -20,6 +23,12 @@ public class Aeropuerto {
 	}
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
+	}
+	public void add(Aeropuerto aeropuerto) {
+		if (aeropuerto != null && !this.aeropuerto.contains(aeropuerto)) {
+			this.aeropuerto.add(aeropuerto);
+		}
+		
 	}
 	
 	
