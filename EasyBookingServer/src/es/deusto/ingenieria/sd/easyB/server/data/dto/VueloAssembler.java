@@ -1,5 +1,7 @@
 package es.deusto.ingenieria.sd.easyB.server.data.dto;
 
-public class VueloAssembler {
 
+public class VueloAssembler {
+	
+	
 }
