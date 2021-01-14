@@ -2,7 +2,7 @@ package es.deusto.ingenieria.sd.easyB.server.data.dto;
 
 import java.io.Serializable;
 
-public class AeroliniaDTO implements Serializable{
+public class AerolineaDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
 	private int cod_aero;
