@@ -9,7 +9,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.Usuario;
+import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 
 public class UsuarioDAO implements IUsuarioDAO {
 

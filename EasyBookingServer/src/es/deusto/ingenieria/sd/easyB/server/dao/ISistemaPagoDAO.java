@@ -3,7 +3,7 @@ package es.deusto.ingenieria.sd.easyB.server.dao;
 import java.util.ArrayList;
 import java.util.Date;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.SistemaPago;
+import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
 
 public interface ISistemaPagoDAO {
 	

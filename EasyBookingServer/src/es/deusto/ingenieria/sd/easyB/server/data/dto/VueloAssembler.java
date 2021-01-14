@@ -2,7 +2,7 @@ package es.deusto.ingenieria.sd.easyB.server.data.dto;
 
 import java.util.ArrayList;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.Vuelo;
+import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 
 public class VueloAssembler {
 	

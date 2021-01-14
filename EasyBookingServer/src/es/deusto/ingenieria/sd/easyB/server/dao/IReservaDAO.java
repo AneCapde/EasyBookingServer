@@ -2,7 +2,7 @@ package es.deusto.ingenieria.sd.easyB.server.dao;
 
 import java.util.ArrayList;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.Reserva;
+import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 
 public interface IReservaDAO {
 	

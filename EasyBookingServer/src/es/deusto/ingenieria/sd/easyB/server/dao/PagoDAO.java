@@ -10,7 +10,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.Pago;
+import es.deusto.ingenieria.sd.easyB.server.data.Pago;
 
 public class PagoDAO implements IPagoDAO{
 	

@@ -2,7 +2,7 @@ package es.deusto.ingenieria.sd.easyB.server.dao;
 
 import java.util.ArrayList;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.Aeropuerto;
+import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 
 public interface IAeropuertoDAO { 
 	

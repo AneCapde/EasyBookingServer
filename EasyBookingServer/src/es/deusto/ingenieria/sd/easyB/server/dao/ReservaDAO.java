@@ -8,7 +8,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.Reserva;
+import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 
 public class ReservaDAO implements IReservaDAO{
 

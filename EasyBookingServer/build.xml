@@ -1,10 +1,17 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<project basedir="." default="4.run-example" name="TDE_Easy_Booking_Server">
-    <property name="src.dir" location="src"/>
-    <property name="bin.dir" location="bin"/>
+<project basedir="." default="6.server" name="Easy_Booking_Server">
+	
+	<property name="src.dir" location="src"/>
+	<property name="bin.dir" location="bin"/>
+	<property name="dist.dir" location="dist"/>
 	<property name="lib.dir" location="lib"/>
 	<property name="resources.dir" location="resources"/>
-		
+	<property name="export.file" value="easyBooking.jar"/>
+	<property name="policy.file" location="security/java.policy"/>	
+	<property name="rmiregistry.IP" value="127.0.0.1"/> 
+	<property name="rmiregistry.port" value="1099"/> 
+	<property name="server.name" value="easyBooking"/>
+	
     <path id="classpath">
         <fileset dir="${lib.dir}">
             <include name="**/*.jar"/>
@@ -16,23 +23,26 @@
     <target name="1.compile" description="Builds the source code">
     	<delete dir="${bin.dir}"/>
     	<mkdir dir="${bin.dir}"/>
-    	
-    	<javac srcdir="${src.dir}" destdir="${bin.dir}" classpathref="classpath" includeantruntime="false" fork="true">
-            <include name="**/*.java"/>
-         </javac>
+    	<javac srcdir="${src.dir}" destdir="${bin.dir}" classpathref="classpath" includeantruntime="no" fork="true" deprecation="true"/>
     </target>
-		
+	
 	<target name="2.enhance-classes" depends="1.compile" description="Adds JDO code to the persisten compiled classes">
     	<taskdef name="enhancer" classpathref="classpath" classname="org.datanucleus.enhancer.EnhancerTask"/>
    		<enhancer classpathref="classpath" failonerror="true">
             <sysproperty key="log4j.configuration" value="file:${resources.dir}/log4j.properties"/>
             <fileset dir="${bin.dir}">
-                <include name="**/*.class"/>
+                <include name="**/data/*.class"/>
             </fileset>
    		</enhancer>
     </target>
+	
+	<target name="3.export" depends="2.enhance-classes" description="Export classes into a .jar file">
+		<delete dir="${dist.dir}"/>
+		<mkdir dir="${dist.dir}"/>
+		<jar destfile="${dist.dir}/${export.file}" basedir="${bin.dir}" includes="**/remote/I**.class, **/dto/**.class"/>
+	</target>
 
-    <target name="3.create-db-schema" depends="2.enhance-classes" description="Creates DB Schema on the DB Server">
+    <target name="4.create-db-schema" depends="2.enhance-classes" description="Creates DB Schema on the DB Server">
         <taskdef name="schematool" classpathref="classpath" classname="org.datanucleus.store.schema.SchemaToolTask"/>
     	<schematool mode="create" classpathref="classpath" props="datanucleus.properties" failonerror="true">
             <sysproperty key="log4j.configuration" value="file:${resources.dir}/log4j.properties"/>
@@ -41,14 +51,27 @@
             </fileset>
         </schematool>
     </target>
-
-	<target name="4.run-example" description="Runs the example">
-        <java classname="es.deusto.ingenieria.sd.datanucleus.jdo.Main" classpathref="classpath" fork="true">
-        	<jvmarg value="-Dlog4j.configuration=log4j.properties"/>
-		</java>
-    </target>
 	
-	<target name="5.delete-db-schema" depends="2.enhance-classes" description="Drops DB sechema from the DB Server">
+	<!-- Revisado // crear clase LocalDataBaseTest(cambiar el nombre de main) -->
+	
+	<target name="5.local.test" description="Runs local repository test">
+		<java classname="es.deusto.ingenieria.sd.easyB.server.jdo.LocalDataBaseTest" classpathref="classpath" fork="true">
+			<jvmarg value="-Dlog4j.configuration=log4j.properties"/>
+		</java>
+	 </target>
+	
+	<target name="6.server" description="Runs the Server">
+		<java classname="es.deusto.ingenieria.sd,easyB.server.EasyBookingServer" classpathref="classpath" fork="true">
+	        <jvmarg value="-Djava.rmi.server.codebase=file:${bin.dir}/"/>
+			<jvmarg value="-Djava.security.policy=${policy.file}"/>
+			<jvmarg value="-Dlog4j.configuration=log4j.properties"/>
+	        <arg value="${rmiregistry.IP}"/> 
+		 	<arg value="${rmiregistry.port}"/> 
+			<arg value="${server.name}"/> 
+	    </java>
+	</target>
+	
+	<target name="7.delete-db-schema" depends="2.enhance-classes" description="Drops DB sechema from the DB Server">
 		<taskdef name="schematool" classpathref="classpath" classname="org.datanucleus.store.schema.SchemaToolTask"/>
     	<schematool mode="delete" classpathref="classpath" props="datanucleus.properties" failonerror="true">            
     	   	<sysproperty key="log4j.configuration" value="file:${resources.dir}/log4j.properties"/>
@@ -57,4 +80,5 @@
             </fileset>
         </schematool>
 	</target>
+	
 </project>

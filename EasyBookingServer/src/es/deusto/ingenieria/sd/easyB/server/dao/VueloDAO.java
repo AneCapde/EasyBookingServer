@@ -8,7 +8,7 @@ import javax.jdo.PersistenceManagerFactory;
 import javax.jdo.Query;
 import javax.jdo.Transaction;
 
-import es.deusto.ingenieria.sd.easyB.server.jdo.Vuelo;
+import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 
 public class VueloDAO implements IVueloDAO {
 

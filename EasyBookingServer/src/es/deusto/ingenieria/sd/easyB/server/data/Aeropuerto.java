@@ -1,4 +1,4 @@
-package es.deusto.ingenieria.sd.easyB.server.jdo;
+package es.deusto.ingenieria.sd.easyB.server.data;
 
 import java.util.Set;
 
