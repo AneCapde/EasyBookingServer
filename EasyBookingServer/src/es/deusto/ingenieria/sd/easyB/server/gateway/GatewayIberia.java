@@ -16,4 +16,10 @@ public class GatewayIberia implements IGatewayAerolinea{
 		return null;
 	}
 	//comunicación mediante RMI
+
+	@Override
+	public Vuelo recuperarInfo(int cod_vuelo) {
+		// TODO Auto-generated method stub
+		return null;
+	}
 }
