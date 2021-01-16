@@ -13,7 +13,14 @@ import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 public class VueloDAO implements IVueloDAO {
 
 	private PersistenceManagerFactory pmf;
-
+	private static VueloDAO instance = null;
+	public static VueloDAO getInstance() {
+		if (instance == null) {
+			instance = new VueloDAO();
+		}		
+		
+		return instance;
+	}
 	public VueloDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 	}

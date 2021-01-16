@@ -12,7 +12,14 @@ import javax.jdo.Transaction;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 
 public class AeropuertoDAO implements IAeropuertoDAO{
-
+	private static AeropuertoDAO instance = null;
+	public static AeropuertoDAO getInstance() {
+		if (instance == null) {
+			instance = new AeropuertoDAO();
+		}		
+		
+		return instance;
+	}
 	private PersistenceManagerFactory pmf;
 
 	public AeropuertoDAO() {

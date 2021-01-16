@@ -13,8 +13,15 @@ import javax.jdo.Transaction;
 import es.deusto.ingenieria.sd.easyB.server.data.Pago;
 
 public class PagoDAO implements IPagoDAO{
-	
 	private PersistenceManagerFactory pmf;
+	private static PagoDAO instance = null;
+	public static PagoDAO getInstance() {
+		if (instance == null) {
+			instance = new PagoDAO();
+		}		
+		
+		return instance;
+	}
 
 	public PagoDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");

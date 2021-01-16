@@ -13,9 +13,16 @@ import javax.jdo.Transaction;
 import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
 
 public class SistemaPagoDAO implements ISistemaPagoDAO{
-
 	private PersistenceManagerFactory pmf;
-
+	private static SistemaPagoDAO instance = null;
+	public static SistemaPagoDAO getInstance() {
+		if (instance == null) {
+			instance = new SistemaPagoDAO();
+		}		
+		
+		return instance;
+	}
+	
 	public SistemaPagoDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 	}

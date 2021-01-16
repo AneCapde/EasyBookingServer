@@ -11,8 +11,17 @@ import javax.jdo.Transaction;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 
 public class ReservaDAO implements IReservaDAO{
-
+	
 	private PersistenceManagerFactory pmf;
+	private static ReservaDAO instance = null;
+	public static ReservaDAO getInstance() {
+		if (instance == null) {
+			instance = new ReservaDAO();
+		}		
+		
+		return instance;
+	}
+	
 
 	public ReservaDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");

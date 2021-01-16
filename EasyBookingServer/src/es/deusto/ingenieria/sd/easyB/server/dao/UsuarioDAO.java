@@ -12,9 +12,16 @@ import javax.jdo.Transaction;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 
 public class UsuarioDAO implements IUsuarioDAO {
-
 	private PersistenceManagerFactory pmf;
-
+	private static UsuarioDAO instance = null;
+	public static UsuarioDAO getInstance() {
+		if (instance == null) {
+			instance = new UsuarioDAO();
+		}		
+		
+		return instance;
+	}
+	
 	public UsuarioDAO() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");
 	}
