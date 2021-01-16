@@ -12,6 +12,7 @@ public class Usuario {
 	
 	private String nombre;
 	private String email;
+	private String password;
 	@Persistent(defaultFetchGroup = "true")
 	private Aeropuerto aeropuesto;
 	@Persistent(defaultFetchGroup = "true", mappedBy = "usuario", dependentElement = "true")
@@ -63,6 +64,24 @@ public class Usuario {
 			this.reservas.remove(r);
 		}
 	}
+	public String getPassword() {
+		return password;
+	}
+	public void setPassword(String password) {
+		this.password = password;
+	}
 	
+	public boolean chekPassword(String password) {
+		return this.password.equals(password);
+	}
+	
+	@Override
+	public boolean equals(Object obj) {
+		if (obj != null && obj.getClass().getName().equals(this.getClass().getName())) {
+			return this.nombre.equals(((Usuario)obj).nombre);
+		} else {
+			return false;
+		}
+	}
 	
 }

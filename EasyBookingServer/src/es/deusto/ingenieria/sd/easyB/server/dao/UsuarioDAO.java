@@ -47,17 +47,17 @@ public class UsuarioDAO implements IUsuarioDAO {
 	}
 
 	@Override
-	public Usuario getUsuario(String nombre) {
+	public Usuario getUsuario(String email) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
 		
 		Transaction tx = pm.currentTransaction();
 		Usuario usuario = null;
 		try {
-			System.out.println("   * Querying a Usario: " + nombre);
+			System.out.println("   * Querying a Usario: " + email);
 
 			tx.begin();
-			Query<?> query = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE nombre == '" +nombre + "'");
+			Query<?> query = pm.newQuery("SELECT FROM " + Usuario.class.getName() + " WHERE email == '" + email + "'");
 			query.setUnique(true);
 			usuario = (Usuario) query.execute();
 			tx.commit();
