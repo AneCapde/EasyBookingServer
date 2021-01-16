@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.sd.easyB.server.data.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 
@@ -26,8 +27,8 @@ public class AeropuertoAssembler {
 		return dto;
 	}
 	
-	public ArrayList<AeropuertoDTO> entityToDTO(ArrayList<Aeropuerto> aeropuertos) {
-		ArrayList<AeropuertoDTO> dtos = new ArrayList<>();
+	public List<AeropuertoDTO> entityToDTO(List<Aeropuerto> aeropuertos) {
+		List<AeropuertoDTO> dtos = new ArrayList<>();
 		for (Aeropuerto aeropuerto : aeropuertos) {
 			dtos.add(this.entityToDTO(aeropuerto));
 		}
