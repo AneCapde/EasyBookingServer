@@ -3,6 +3,8 @@ package es.deusto.ingenieria.sd.easyB.server.data.dto;
 import java.io.Serializable;
 import java.util.Date;
 
+import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
+
 public class VueloDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
@@ -10,7 +12,21 @@ public class VueloDTO implements Serializable{
 	private Date llegada; 
 	private Date salida;
 	private double precio;
+	private Aeropuerto aero_origen;
+	private Aeropuerto aero_destino;
 	
+	public Aeropuerto getAero_origen() {
+		return aero_origen;
+	}
+	public void setAero_origen(Aeropuerto aero_origen) {
+		this.aero_origen = aero_origen;
+	}
+	public Aeropuerto getAero_destino() {
+		return aero_destino;
+	}
+	public void setAero_destino(Aeropuerto aero_destino) {
+		this.aero_destino = aero_destino;
+	}
 	public int getCod_vuelo() {
 		return cod_vuelo;
 	}
