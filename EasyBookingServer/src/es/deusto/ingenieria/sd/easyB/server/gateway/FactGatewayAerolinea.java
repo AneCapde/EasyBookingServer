@@ -2,8 +2,6 @@ package es.deusto.ingenieria.sd.easyB.server.gateway;
 
 public class FactGatewayAerolinea {
 	
-	//esto creo que se puede borrar
-	//private static final FactGatewayAerolinea INSTANCE = new FactGatewayAerolinea();
 	public enum TipoAerolineas {Vueling, Iberia}
 	
 	private FactGatewayAerolinea() {
@@ -11,12 +9,13 @@ public class FactGatewayAerolinea {
 	}
 	
 	public IGatewayAerolinea createGateway(TipoAerolineas tipoAerolinea) {
+		IGatewayAerolinea gatewayaerolinea = null;
 		
 		if (TipoAerolineas.Vueling.equals(tipoAerolinea)) {
-			
+			gatewayaerolinea = new GatewayVueling();
 		}else {
-			
+			gatewayaerolinea = new GatewayIberia();
 		}
-		return null;
+		return gatewayaerolinea;
 	}
 }
