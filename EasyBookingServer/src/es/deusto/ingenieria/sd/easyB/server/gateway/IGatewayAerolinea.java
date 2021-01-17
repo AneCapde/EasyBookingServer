@@ -10,5 +10,4 @@ import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 public interface IGatewayAerolinea {
 	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros);
 	public Reserva reservarVuelo(Vuelo vuelo);
-	//public Vuelo recuperarInfo(int cod_vuelo);
 }
