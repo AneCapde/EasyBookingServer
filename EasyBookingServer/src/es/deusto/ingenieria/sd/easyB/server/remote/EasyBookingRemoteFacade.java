@@ -42,9 +42,9 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 		return instance;
 	}
 
-	public boolean registrarUsuario(String email, String contraseña, String tipoPago, String aeroPref) throws RemoteException{
-		System.out.println(" * RemoteFaÃ§ade registro: " + email + " / " + contraseña + " / " + tipoPago + " / " + aeroPref);
-		this.state = LoginService.getInstance().registrarUsuario(email, contraseña, tipoPago, aeroPref);
+	public boolean registrarUsuario(String email, String password, String tipoPago, String aeroPref) throws RemoteException{
+		System.out.println(" * RemoteFaÃ§ade registro: " + email + " / " + password + " / " + tipoPago + " / " + aeroPref);
+		this.state = LoginService.getInstance().registrarUsuario(email, password, tipoPago, aeroPref);
 		
 		return state != null;
 	}
