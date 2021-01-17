@@ -7,11 +7,16 @@ import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 public class GatewayGoogle implements IGatewayAutorizacion{
 
 	private static GatewayGoogle instance = null;
-	public static GatewayGoogle getInstance() {
+
+	// Lazy Initialization
+	public static IGatewayAutorizacion getInstance() {
 		if (instance == null) {
-			instance = new GatewayGoogle();
-		}		
-		
+			try {
+				instance = new GatewayGoogle();
+			} catch (Exception ex) {
+				System.err.println("# Error creating GatewayGoogle: " + ex);
+			}
+		}	
 		return instance;
 	}
 
