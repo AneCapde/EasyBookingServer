@@ -1,6 +1,6 @@
 package es.deusto.ingenieria.sd.easyB.server.services;
 
-import es.deusto.ingenieria.sd.easyB.server.dao.UsuarioDAO;
+import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 
 public class LoginService {
@@ -16,7 +16,7 @@ public class LoginService {
 	}
 
 	public Usuario login(String email, String contraseña) {
-		Usuario user = UsuarioDAO.getInstance().getUsuario(email);
+		Usuario user = DBManager.getInstance().getUser(email);
 		
 		if (user != null && user.chekPassword(contraseña)) {
 			return user;
@@ -25,4 +25,4 @@ public class LoginService {
 		}
 	}
 }
-//tengo que comunicarme con el gateway de autentificaion, no comprobarlo solo
+//tengo que comunicarme con el gateway de autentificacion, no comprobarlo solo

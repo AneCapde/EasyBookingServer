@@ -624,8 +624,31 @@ public class DBManager {
 	}
 
 	public Pago getPago(Date fecha) {
-		// TODO Auto-generated method stub
-		return null;
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.getFetchPlan().setMaxFetchDepth(4);
+		Transaction tx = pm.currentTransaction();
+		Pago pago = null; 
+
+		try {
+			System.out.println("  * Querying a Pago by fecha: " + fecha);
+			tx.begin();
+
+			Query<?> query = pm.newQuery("SELECT FROM " + Pago.class.getName() + " WHERE fecha == '" + fecha + "'");
+			query.setUnique(true);
+			pago = (Pago) query.execute();
+
+			tx.commit();
+		} catch (Exception ex) {
+			System.out.println("  $ Error querying a pago: " + ex.getMessage());
+		} finally {
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+
+			pm.close();
+		}
+
+		return pago;
 	}
 
 
@@ -734,8 +757,31 @@ public class DBManager {
 	}
 	
 	public SistemaPago getSistemaPago(Date fecha) {
-		// TODO Auto-generated method stub
-		return null;
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.getFetchPlan().setMaxFetchDepth(4);
+		Transaction tx = pm.currentTransaction();
+		SistemaPago sisPago = null; 
+
+		try {
+			System.out.println("  * Querying a SistemaPago by fecha: " + fecha);
+			tx.begin();
+
+			Query<?> query = pm.newQuery("SELECT FROM " + SistemaPago.class.getName() + " WHERE fecha == '" + fecha + "'");
+			query.setUnique(true);
+			sisPago = (SistemaPago) query.execute();
+
+			tx.commit();
+		} catch (Exception ex) {
+			System.out.println("  $ Error querying a SistemaPago: " + ex.getMessage());
+		} finally {
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+
+			pm.close();
+		}
+
+		return sisPago;
 	}
 
 	public void updatePago(SistemaPago sistemaPago) {
