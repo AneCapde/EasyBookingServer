@@ -46,9 +46,9 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 		return BusquedaVuelosService.getInstance().getVuelos(aeropuertoName);
 	}
 
-	public List<AerolineaDTO> getAerolineas() throws RemoteException{
+	public List<AerolineaDTO> getAerolineas(String tipoAerolinea) throws RemoteException{
 		System.out.println(" * RemoteFaçade getAerolienas: ");
-		return BusquedaVuelosService.getInstance().getAerolineas();
+		return BusquedaVuelosService.getInstance().getAerolineas(tipoAerolinea);
 	}
 	
 	public List<AeropuertoDTO> getAerolpuertos() throws RemoteException{
@@ -61,5 +61,6 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 		System.out.println(" * RemoteFaçade getVuelos");
 		return ReservaVuelosService.getInstance().getVuelos();
 	}
+
 
 }
