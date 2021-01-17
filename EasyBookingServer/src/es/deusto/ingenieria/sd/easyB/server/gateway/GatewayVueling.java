@@ -4,8 +4,10 @@ import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
 import java.util.ArrayList;
+import java.util.Date;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
+import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 
 public class GatewayVueling implements IGatewayAerolinea{
@@ -14,6 +16,7 @@ public class GatewayVueling implements IGatewayAerolinea{
 	private int remoteServerPort;
 	private ArrayList<Vuelo> vuelos;
 	private Vuelo vuelo;
+	
 	
 	public int getRemoteServerPort() {
 		return remoteServerPort;
@@ -42,20 +45,19 @@ public class GatewayVueling implements IGatewayAerolinea{
 	}
 
 	@Override
-	public Vuelo buscarVuelos() {
-		Vuelo vuelos = null;
+	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+		ArrayList<Vuelo> vuelos = null;
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 				DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 				DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
 				
-			//ESTO NO SE COMO HACERLO
-				ArrayList<Vuelo> request = this.vuelos;
+				String request = origen.getNombre() + "#" + destino.getNombre() + "#" + fecha + "#" + num_pasajeros;
 				System.out.println("    -> Vuelos request:" + request);
-				//out.write(request);
+				out.writeUTF(request);
 				
-				//ArrayList<Vuelo> response = in.readUTF();
-				//System.out.println("    -> Vuelos response:" + response);
+				String response = in.readUTF();
+				System.out.println("    -> Vuelos response:" + response);
 							
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
@@ -79,11 +81,12 @@ public class GatewayVueling implements IGatewayAerolinea{
 		
 		return vuelo;
 	}
+
 	
-	@Override
-	public Vuelo recuperarInfo(int cod_vuelo) {
+	//@Override
+//	public Vuelo recuperarInfo(int cod_vuelo) {
 		// TODO Auto-generated method stub
-		return null;
-	}
+//		return null;
+//	}
 	
 }
