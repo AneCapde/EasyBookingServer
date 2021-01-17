@@ -6,6 +6,14 @@ import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 
 public class GatewayGoogle implements IGatewayAutorizacion{
 
+	private static GatewayGoogle instance = null;
+	public static GatewayGoogle getInstance() {
+		if (instance == null) {
+			instance = new GatewayGoogle();
+		}		
+		
+		return instance;
+	}
 
 	@Override
 	public Usuario login(String email, String password) {
