@@ -30,7 +30,7 @@ public class GatewayGoogle implements IGatewayAutorizacion{
 	}
 
 	@Override
-	public Usuario registrarUsuario(String email, String password, SistemaPago tipoPago, Aeropuerto aeroPref) {
+	public Usuario registrarUsuario(String email, String password) {
 		try {
 			String name = "//" + ip + ":" + port + "/" + serviceName;
 //			IGoogle stubServer = (IGoogle) java.rmi.Naming.lookup(name);

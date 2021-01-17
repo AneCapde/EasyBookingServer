@@ -18,8 +18,8 @@ public class LoginService {
 		return instance;
 	}
 
-	public Usuario registrarUsuario(String email, String contraseña,SistemaPago tipoPago, Aeropuerto aeroPref) {
-		return this.Autorizacion.registrarUsuario(email, contraseña, tipoPago, aeroPref);
+	public Usuario registrarUsuario(String email, String contraseña, String tipoPago, String aeroPref) {
+		return this.Autorizacion.registrarUsuario(email, contraseña);
 //		Usuario user = DBManager.getInstance().getUser(email);
 //		
 //		if (user != null && user.chekPassword(contraseña)) {
