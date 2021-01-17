@@ -4,9 +4,18 @@ public class FactGatewayAerolinea {
 	
 	public enum TipoAerolineas {Vueling, Iberia}
 	
-	private FactGatewayAerolinea() {
-		
+	private static FactGatewayAerolinea instance;
+	
+	private FactGatewayAerolinea() {}
+	
+	public static FactGatewayAerolinea getInstance() {
+		if (instance == null) {
+			instance = new FactGatewayAerolinea();
+		}
+
+		return instance;
 	}
+	
 	
 	public IGatewayAerolinea createGateway(TipoAerolineas tipoAerolinea) {
 		IGatewayAerolinea gatewayaerolinea = null;

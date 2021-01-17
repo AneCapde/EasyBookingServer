@@ -13,6 +13,7 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea;
+import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea.TipoAerolineas;
 
 public class BusquedaVuelosService {
 	
@@ -37,7 +38,7 @@ public class BusquedaVuelosService {
 	}
 	
 	public List<AerolineaDTO> getAerolineas() {
-		return AerolineaAssembler.getInstance().entityToDTO(FactGatewayAerolinea.);
+		return AerolineaAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(TipoAerolineas.Vueling));
 	}
 
 	//Cambiar esto para hacerlo con el DBManager, y la aerolinea cojer el enum del factoryAerolinea
