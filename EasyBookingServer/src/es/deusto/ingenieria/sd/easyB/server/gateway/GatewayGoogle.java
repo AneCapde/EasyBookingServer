@@ -2,10 +2,11 @@ package es.deusto.ingenieria.sd.easyB.server.gateway;
 
 import java.rmi.RemoteException;
 
+
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
-//import google.server.remote.IGoogle;
+import google.server.remote.IGoogle;
 
 public class GatewayGoogle implements IGatewayAutorizacion{
 
@@ -18,7 +19,7 @@ public class GatewayGoogle implements IGatewayAutorizacion{
 		
 		try {
 			String name = "//" + ip + ":" + port + "/" + serviceName;
-//			IGoogle stubServer = (IGoogle) java.rmi.Naming.lookup(name);
+			IGoogle stubServer = (IGoogle) java.rmi.Naming.lookup(name);
 //			stubServer.login(email,password);
 //			System.out.println("* Message coming from the server: '" +  "'");
 
