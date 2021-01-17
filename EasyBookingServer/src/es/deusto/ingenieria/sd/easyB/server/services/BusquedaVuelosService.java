@@ -9,7 +9,6 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
-import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea;
 
 public class BusquedaVuelosService {
 	
