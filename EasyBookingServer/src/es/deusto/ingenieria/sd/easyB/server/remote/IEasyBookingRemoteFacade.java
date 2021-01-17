@@ -13,5 +13,5 @@ public interface IEasyBookingRemoteFacade extends Remote {
 	public boolean login(String aEmail, String aPassword) throws RemoteException;
 	public List<VueloDTO> getVuelos(String aeropuertoName) throws RemoteException;
 	public List<AerolineaDTO> getAerolineas(Aerolinea aerolinea) throws RemoteException;
-	public List<AeropuertoDTO> getAerolpuertos() throws RemoteException;
+	public List<AeropuertoDTO> getAeropuertos() throws RemoteException;
 }
