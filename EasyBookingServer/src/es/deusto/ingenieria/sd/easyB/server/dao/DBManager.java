@@ -112,25 +112,6 @@ public class DBManager {
 		DBManager.getInstance().storeObjectInDB(sistemaPago);
 	}
 	
-	public void storeAeropuerto(Aeropuerto aeropuerto) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			System.out.println("   * Storing Aeropuerto: " + aeropuerto);
-			pm.makePersistent(aeropuerto);
-			pm.flush();
-			tx.commit();
-		} catch (Exception ex) {
-			System.out.println("   $ Error storing Aeropuerto: " + ex.getMessage());
-		} finally {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-	}
-	
 	public Aeropuerto getAeropuerto(String aeropuertoName) {		
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -262,17 +243,155 @@ public class DBManager {
 		}
 	}
 	
-	public Reserva getReserva(String aeropuertoName) {		
+	
+	public Vuelo getVuelo(int cod_vuelo) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.getFetchPlan().setMaxFetchDepth(3);
+		
+		Transaction tx = pm.currentTransaction();
+		Vuelo vuelo = null;
+		try {
+			System.out.println("   * Querying a Vuelo: " + cod_vuelo);
+
+			tx.begin();
+			Query<?> query = pm.newQuery("SELECT FROM " + Vuelo.class.getName() + " WHERE cod_vuelo == " + cod_vuelo );
+			query.setUnique(true);
+			vuelo = (Vuelo) query.execute();
+			tx.commit();
+
+		} catch (Exception ex) {
+			System.out.println("   $ Error retreiving an extent: " + ex.getMessage());
+		} finally {
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		return vuelo;
+	}
+
+	public void updateVuelo(Vuelo vuelo) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			pm.makePersistent(vuelo);
+			tx.commit();
+		} catch (Exception ex) {
+			System.out.println("   $ Error retreiving an extent: " + ex.getMessage());
+		} finally {
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+			pm.close();
+		}
+		
+	}
+	
+	public List<Vuelo> getVuelo() {
+		List<Vuelo> vuelos = new ArrayList<>();		
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.getFetchPlan().setMaxFetchDepth(4);
+		Transaction tx = pm.currentTransaction();
+
+		try {
+			System.out.println("  * Retrieving all the Vuelos");
+
+			tx.begin();
+
+			Extent<Vuelo> extent = pm.getExtent(Vuelo.class, true);
+
+			for (Vuelo vuelo : extent) {
+				vuelos.add(vuelo);
+			}
+
+			tx.commit();
+		} catch (Exception ex) {
+			System.out.println("  $ Error retrieving all the Vuelos: " + ex.getMessage());
+		} finally {
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+
+			pm.close();
+		}
+
+		return vuelos;		
+	}
+	
+	public ArrayList<Vuelo> getVuelos(String aeropuertoName) {
+		PersistenceManager pm = pmf.getPersistenceManager();
+		pm.getFetchPlan().setMaxFetchDepth(3);
+
+		Transaction tx = pm.currentTransaction();
+		ArrayList<Vuelo> vuelos = new ArrayList<Vuelo>();
+
+		try {
+			System.out.println(" *Querying a Vuelo of an Aeropuerto: " + aeropuertoName);
+
+			tx.begin();
+			Extent<Vuelo> extent = pm.getExtent(Vuelo.class, true);
+			
+			for (Vuelo vuelo : extent) {
+				vuelos.add(vuelo);
+			}
+			tx.commit();
+		} catch (Exception ex) {
+			System.out.println("   $ Error retreiving an extent: " + ex.getMessage());
+		} finally {
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+
+			pm.close();
+		}
+		return vuelos;
+	}
+
+	public void deleteAllVuelos() {
+		System.out.println("- Cleaning the Vuelos from the DB...");
+		PersistenceManager pm = pmf.getPersistenceManager();
+		Transaction tx = pm.currentTransaction();
+		try {
+			tx.begin();
+			
+			// Getting ready for removing objects - Remove Relationships between Vuelo and Reserva
+			Extent<Vuelo> extentB = pm.getExtent(Vuelo.class, true);
+			
+			for (Vuelo v : extentB) {
+				v.removeReservas();
+			}
+			// Updating the database so changes are considered before commit
+			pm.flush();
+
+			// Deleting All Vuelos - Vuelos and Reservas will be deleted due to 'delete on cascade'
+			Query<Vuelo> query2 = pm.newQuery(Vuelo.class);
+			System.out.println(" * '" + query2.deletePersistentAll() + "' vuelos deleted from the DB.");
+			tx.commit();
+		} catch (Exception ex) {
+			System.err.println(" $ Error cleaning the DB: " + ex.getMessage());
+			ex.printStackTrace();
+		} finally {
+			if (tx != null && tx.isActive()) {
+				tx.rollback();
+			}
+			if (pm != null && !pm.isClosed()) {
+				pm.close();
+			}
+		}
+	}
+	
+	public Reserva getReserva(String nombrePasajero) {		
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
 		Transaction tx = pm.currentTransaction();
 		Reserva reserva = null; 
 
 		try {
-			System.out.println("  * Querying a Reserva by name: " + aeropuertoName);
+			System.out.println("  * Querying a Reserva : " + nombrePasajero);
 			tx.begin();
 
-			Query<?> query = pm.newQuery("SELECT FROM " + Reserva.class.getName() + " WHERE name == '" + aeropuertoName + "'");
+			Query<?> query = pm.newQuery("SELECT FROM " + Reserva.class.getName() + " WHERE name == '" + nombrePasajero + "'");
 			query.setUnique(true);
 			reserva = (Reserva) query.execute();
 
@@ -394,130 +513,6 @@ public class DBManager {
 		}
 	}
 	
-	public void storeVuelo(Vuelo vuelo) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			System.out.println("   * Storing Vuelo: " + vuelo);
-			pm.makePersistent(vuelo);
-			pm.flush();
-			tx.commit();
-		} catch (Exception ex) {
-			System.out.println("   $ Error storing Vuelo: " + ex.getMessage());
-		} finally {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-	}
-
-	public Vuelo getVuelo(int cod_vuelo) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		pm.getFetchPlan().setMaxFetchDepth(3);
-		
-		Transaction tx = pm.currentTransaction();
-		Vuelo vuelo = null;
-		try {
-			System.out.println("   * Querying a Vuelo: " + cod_vuelo);
-
-			tx.begin();
-			Query<?> query = pm.newQuery("SELECT FROM " + Vuelo.class.getName() + " WHERE cod_vuelo == " + cod_vuelo );
-			query.setUnique(true);
-			vuelo = (Vuelo) query.execute();
-			tx.commit();
-
-		} catch (Exception ex) {
-			System.out.println("   $ Error retreiving an extent: " + ex.getMessage());
-		} finally {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		return vuelo;
-	}
-
-	public void updateVuelo(Vuelo vuelo) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			pm.makePersistent(vuelo);
-			tx.commit();
-		} catch (Exception ex) {
-			System.out.println("   $ Error retreiving an extent: " + ex.getMessage());
-		} finally {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-		
-	}
-
-	public ArrayList<Vuelo> getVuelos() {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		pm.getFetchPlan().setMaxFetchDepth(3);
-
-		Transaction tx = pm.currentTransaction();
-		ArrayList<Vuelo> vuelos = new ArrayList<Vuelo>();
-
-		try {
-			System.out.println("   * Retrieving an Extent for Vuelos.");
-
-			tx.begin();
-			Extent<Vuelo> extent = pm.getExtent(Vuelo.class, true);
-			
-			for (Vuelo vuelo : extent) {
-				vuelos.add(vuelo);
-			}
-			tx.commit();
-		} catch (Exception ex) {
-			System.out.println("   $ Error retreiving an extent: " + ex.getMessage());
-		} finally {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-
-			pm.close();
-		}
-		return vuelos;
-	}
-
-	public void deleteAllVuelos() {
-		System.out.println("- Cleaning the Vuelos from the DB...");
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			
-			// Getting ready for removing objects - Remove Relationships between Vuelo and Reserva
-			Extent<Vuelo> extentB = pm.getExtent(Vuelo.class, true);
-			
-			for (Vuelo v : extentB) {
-				v.removeReservas();
-			}
-			// Updating the database so changes are considered before commit
-			pm.flush();
-
-			// Deleting All Vuelos - Vuelos and Reservas will be deleted due to 'delete on cascade'
-			Query<Vuelo> query2 = pm.newQuery(Vuelo.class);
-			System.out.println(" * '" + query2.deletePersistentAll() + "' vuelos deleted from the DB.");
-			tx.commit();
-		} catch (Exception ex) {
-			System.err.println(" $ Error cleaning the DB: " + ex.getMessage());
-			ex.printStackTrace();
-		} finally {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-			if (pm != null && !pm.isClosed()) {
-				pm.close();
-			}
-		}
-	}
 	
 	public Usuario getUser(String email) {
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -627,26 +622,6 @@ public class DBManager {
 			}
 		}
 	}
-	
-	public void storePago(Pago pago) {
-		PersistenceManager pm = pmf.getPersistenceManager();
-		Transaction tx = pm.currentTransaction();
-		try {
-			tx.begin();
-			System.out.println("   * Storing Pago: " + pago);
-			pm.makePersistent(pago);
-			pm.flush();
-			tx.commit();
-		} catch (Exception ex) {
-			System.out.println("   $ Error storing Pago: " + ex.getMessage());
-		} finally {
-			if (tx != null && tx.isActive()) {
-				tx.rollback();
-			}
-			pm.close();
-		}
-	}
-
 
 	public Pago getPago(Date fecha) {
 		// TODO Auto-generated method stub
@@ -672,7 +647,7 @@ public class DBManager {
 	}
 
 
-	public ArrayList<Pago> getPagos() {
+	public List<Pago> getPagos() {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
 
@@ -780,8 +755,7 @@ public class DBManager {
 		}
 	}
 
-
-	public ArrayList<SistemaPago> getSistemaPagos() {
+	public List<SistemaPago> getSistemaPagos() {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
 
