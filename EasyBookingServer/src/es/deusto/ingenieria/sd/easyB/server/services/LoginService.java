@@ -1,10 +1,13 @@
 package es.deusto.ingenieria.sd.easyB.server.services;
 
-import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
+import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
+import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
+import es.deusto.ingenieria.sd.easyB.server.gateway.IGatewayAutorizacion;
 
 public class LoginService {
 	private static LoginService instance;
+	private IGatewayAutorizacion Autorizacion;
 	
 	private LoginService() { }
 	
@@ -15,14 +18,18 @@ public class LoginService {
 		return instance;
 	}
 
+	public Usuario registrarUsuario(String email, String contraseña,SistemaPago tipoPago, Aeropuerto aeroPref) {
+		return this.Autorizacion.registrarUsuario(email, contraseña, tipoPago, aeroPref);
+//		Usuario user = DBManager.getInstance().getUser(email);
+//		
+//		if (user != null && user.chekPassword(contraseña)) {
+//			return user;
+//		} else {
+//			return null;
+//		}
+	}
+	
 	public Usuario login(String email, String contraseña) {
-		Usuario user = DBManager.getInstance().getUser(email);
-		
-		if (user != null && user.chekPassword(contraseña)) {
-			return user;
-		} else {
-			return null;
-		}
+		return this.Autorizacion.login(email, contraseña);
 	}
 }
-//tengo que comunicarme con el gateway de autentificacion, no comprobarlo solo

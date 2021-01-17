@@ -2,10 +2,15 @@ package es.deusto.ingenieria.sd.easyB.server.remote;
 
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
+import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
+import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
+import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
+import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AerolineaDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
@@ -36,6 +41,13 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 		return instance;
 	}
 
+	public boolean registrarUsuario(String email, String contraseÒa, SistemaPago tipoPago, Aeropuerto aeroPref) throws RemoteException{
+		System.out.println(" * RemoteFa√ßade registro: " + email + " / " + contraseÒa + " / " + tipoPago + " / " + aeroPref);
+		this.state = LoginService.getInstance().registrarUsuario(email, contraseÒa, tipoPago, aeroPref);
+		
+		return state != null;
+	}
+	
 	public boolean login(String email, String password) throws RemoteException{
 		System.out.println(" * RemoteFa√ßade login: " + email + " / " + password);
 		this.state = LoginService.getInstance().login(email, password);
@@ -56,6 +68,19 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	public List<AeropuertoDTO> getAeropuertos() throws RemoteException{
 		System.out.println(" * RemoteFa√ßade getAeropuertos: ");
 		return BusquedaVuelosService.getInstance().getAeropuertos();
+	}
+
+	@Override
+	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros)
+			throws RemoteException {
+		System.out.println(" * RemoteFa√ßade buscarVuelos: ");
+		return BusquedaVuelosService.getInstance().buscarVuelos(origen, destino, fecha, num_pasajeros);
+	}
+
+	@Override
+	public Vuelo reservaVuelos(int cod_vuelo) throws RemoteException {
+		System.out.println(" * RemoteFa√ßade reservaVuelos: ");
+		return ReservaVuelosService.getInstance().reservaVuelos(cod_vuelo);
 	}
 
 
