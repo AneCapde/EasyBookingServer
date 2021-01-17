@@ -3,6 +3,8 @@ package es.deusto.ingenieria.sd.easyB.server.remote;
 import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.List;
+
+import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AerolineaDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
@@ -46,9 +48,9 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 		return BusquedaVuelosService.getInstance().getVuelos(aeropuertoName);
 	}
 
-	public List<AerolineaDTO> getAerolineas(String tipoAerolinea) throws RemoteException{
+	public List<AerolineaDTO> getAerolineas(Aerolinea aerolinea) throws RemoteException{
 		System.out.println(" * RemoteFaçade getAerolienas: ");
-		return BusquedaVuelosService.getInstance().getAerolineas(tipoAerolinea);
+		return BusquedaVuelosService.getInstance().getAerolineas(aerolinea);
 	}
 	
 	public List<AeropuertoDTO> getAerolpuertos() throws RemoteException{
@@ -60,6 +62,12 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	public List<VueloDTO> getVuelos() throws RemoteException {
 		System.out.println(" * RemoteFaçade getVuelos");
 		return ReservaVuelosService.getInstance().getVuelos();
+	}
+
+	@Override
+	public List<AerolineaDTO> getAerolineas() throws RemoteException {
+		// TODO Auto-generated method stub
+		return null;
 	}
 
 
