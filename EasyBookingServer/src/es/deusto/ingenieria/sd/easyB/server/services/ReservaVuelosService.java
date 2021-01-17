@@ -1,6 +1,5 @@
 package es.deusto.ingenieria.sd.easyB.server.services;
 
-import java.util.ArrayList;
 import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
@@ -28,8 +27,8 @@ public class ReservaVuelosService {
 		return AeropuertoAssembler.getInstance().entityToDTO(DBManager.getInstance().getAeropuertos());
 	}
 	
-	public List<VueloDTO> getVuelos() {
-		return VueloAssembler.getInstance().entityToDTO(DBManager.getInstance().getVuelo());
+	public List<VueloDTO> getVuelos(String aeropuertoName) {
+		return VueloAssembler.getInstance().entityToDTO(DBManager.getInstance().getVuelos(aeropuertoName));
 	}
 	
 	
