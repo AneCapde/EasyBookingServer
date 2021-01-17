@@ -13,7 +13,11 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea;
+<<<<<<< HEAD
 import es.deusto.ingenieria.sd.easyB.server.gateway.IGatewayAerolinea;
+=======
+import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea.TipoAerolineas;
+>>>>>>> branch 'master' of https://github.com/AneCapde/EasyBookingServer.git
 
 public class BusquedaVuelosService {
 	
@@ -37,8 +41,13 @@ public class BusquedaVuelosService {
 		return VueloAssembler.getInstance().entityToDTO(DBManager.getInstance().getVuelos(aeropuertoName));
 	}
 	
+<<<<<<< HEAD
 	public List<AerolineaDTO> getAerolineas(String tipoAerolinea) {
 		return AerolineaAssembler.getInstance().entityToDTO(FactGatewayAerolinea.);
+=======
+	public List<AerolineaDTO> getAerolineas() {
+		return AerolineaAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(TipoAerolineas.Vueling));
+>>>>>>> branch 'master' of https://github.com/AneCapde/EasyBookingServer.git
 	}
 
 	//Cambiar esto para hacerlo con el DBManager, y la aerolinea cojer el enum del factoryAerolinea
