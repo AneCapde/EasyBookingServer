@@ -1,8 +1,8 @@
 package es.deusto.ingenieria.sd.easyB.server.gateway;
 
-import es.deusto.ingenieria.sd.easyB.server.data.Paypal;
+import java.rmi.RemoteException;
 
 public interface IGatewayPago {
 	
-	public Paypal realizarPago(String email, int cantidad);
+	public void realizarPago(String email, String password, double cantidad) throws RemoteException;
 }
