@@ -1,11 +1,8 @@
 package es.deusto.ingenieria.sd.easyB.server.services;
 
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
-import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;

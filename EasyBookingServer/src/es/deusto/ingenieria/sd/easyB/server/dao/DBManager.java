@@ -15,7 +15,6 @@ import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Pago;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
-import es.deusto.ingenieria.sd.easyB.server.data.TarjetaCredito;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 

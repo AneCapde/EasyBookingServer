@@ -5,14 +5,14 @@ import java.io.Serializable;
 public class AeropuertoDTO implements Serializable{
 	
 	private static final long serialVersionUID = 1L;
-	private int cod_aeropuerto;
+	private String cod_aeropuerto;
 	private String nombre;
 	
 	
-	public int getCod_aeropuerto() {
+	public String getCod_aeropuerto() {
 		return cod_aeropuerto;
 	}
-	public void setCod_aeropuerto(int cod_aeropuerto) {
+	public void setCod_aeropuerto(String cod_aeropuerto) {
 		this.cod_aeropuerto = cod_aeropuerto;
 	}
 	public String getNombre() {
