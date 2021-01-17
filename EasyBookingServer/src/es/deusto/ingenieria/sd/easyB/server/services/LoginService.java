@@ -26,3 +26,4 @@ private static LoginService instance;
 		}
 	}
 }
+//tengo que comunicarme con el gateway de autentificaion, no comprobarlo solo

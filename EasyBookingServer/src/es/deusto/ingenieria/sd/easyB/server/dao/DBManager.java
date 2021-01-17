@@ -157,7 +157,7 @@ public class DBManager {
 		}
 	}
 	
-	public List<Aeropuerto> getAeropuerto() {
+	public List<Aeropuerto> getAeropuertos() {
 		List<Aeropuerto> aeropuertos = new ArrayList<>();		
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);

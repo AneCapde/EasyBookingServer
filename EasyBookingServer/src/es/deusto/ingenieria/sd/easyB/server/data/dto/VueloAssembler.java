@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.sd.easyB.server.data.dto;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 
@@ -28,8 +29,8 @@ public class VueloAssembler {
 		return dto;
 	}
 	
-	public ArrayList<VueloDTO> entityToDTO(ArrayList<Vuelo> vuelos) {
-		ArrayList<VueloDTO> dtos = new ArrayList<>();
+	public List<VueloDTO> entityToDTO(List<Vuelo> vuelos) {
+		List<VueloDTO> dtos = new ArrayList<>();
 		for (Vuelo vuelo : vuelos) {
 			dtos.add(this.entityToDTO(vuelo));
 		}

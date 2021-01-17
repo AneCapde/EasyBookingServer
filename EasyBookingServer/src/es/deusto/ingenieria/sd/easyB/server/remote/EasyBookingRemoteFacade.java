@@ -9,6 +9,7 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import es.deusto.ingenieria.sd.easyB.server.services.BusquedaVuelosService;
 import es.deusto.ingenieria.sd.easyB.server.services.LoginService;
+import es.deusto.ingenieria.sd.easyB.server.services.ReservaVuelosService;
 
 // <<Singletone>> Implemeta la interface IEasyBookingRemoteFacade
 public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEasyBookingRemoteFacade{
@@ -33,26 +34,32 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 		return instance;
 	}
 
-	public boolean login(String email, String password) {
+	public boolean login(String email, String password) throws RemoteException{
 		System.out.println(" * RemoteFaçade login: " + email + " / " + password);
 		this.state = LoginService.getInstance().login(email, password);
 		
 		return state != null;
 	}
 	
-	public List<VueloDTO> getVuelos() {
+	public List<VueloDTO> getVuelos(String aeropuertoName) throws RemoteException{
 		System.out.println(" * RemoteFaçade getVuelos");
-		return BusquedaVuelosService.getInstance().getVuelos();
+		return BusquedaVuelosService.getInstance().getVuelos(aeropuertoName);
 	}
 
-	public List<AerolineaDTO> getAerolineas() {
+	public List<AerolineaDTO> getAerolineas() throws RemoteException{
 		System.out.println(" * RemoteFaçade getAerolienas: ");
 		return BusquedaVuelosService.getInstance().getAerolineas();
 	}
 	
-	public List<AeropuertoDTO> getAerolpuertos() {
+	public List<AeropuertoDTO> getAerolpuertos() throws RemoteException{
 		System.out.println(" * RemoteFaçade getAeropuertos: ");
 		return BusquedaVuelosService.getInstance().getAeropuertos();
+	}
+
+	@Override
+	public List<VueloDTO> getVuelos() throws RemoteException {
+		System.out.println(" * RemoteFaçade getVuelos");
+		return ReservaVuelosService.getInstance().getVuelos();
 	}
 
 }
