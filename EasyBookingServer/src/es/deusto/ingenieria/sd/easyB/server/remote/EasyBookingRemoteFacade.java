@@ -8,6 +8,7 @@ import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
+import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
@@ -78,9 +79,9 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	}
 
 	@Override
-	public Vuelo reservaVuelos(int cod_vuelo) throws RemoteException {
+	public Reserva reservaVuelos(Vuelo vuelo) throws RemoteException {
 		System.out.println(" * RemoteFaçade reservaVuelos: ");
-		return ReservaVuelosService.getInstance().reservaVuelos(cod_vuelo);
+		return ReservaVuelosService.getInstance().reservaVuelos(vuelo);
 	}
 
 

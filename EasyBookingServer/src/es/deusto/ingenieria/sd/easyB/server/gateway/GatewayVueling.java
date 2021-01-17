@@ -8,6 +8,7 @@ import java.util.Date;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
+import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 
 public class GatewayVueling implements IGatewayAerolinea{
@@ -66,8 +67,8 @@ public class GatewayVueling implements IGatewayAerolinea{
 	}
 	
 	@Override
-	public Vuelo reservarVuelo(int cod_vuelo) {
-		Vuelo vuelo = null;
+	public Reserva reservarVuelo(Vuelo vuelo) {
+		Reserva vue = null;
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 			DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
@@ -79,7 +80,7 @@ public class GatewayVueling implements IGatewayAerolinea{
 			System.out.println("Error: " + e.getMessage());
 		}
 		
-		return vuelo;
+		return vue;
 	}
 
 	
