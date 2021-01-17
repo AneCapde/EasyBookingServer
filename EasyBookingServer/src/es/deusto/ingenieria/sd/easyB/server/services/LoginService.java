@@ -4,7 +4,7 @@ import es.deusto.ingenieria.sd.easyB.server.dao.UsuarioDAO;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 
 public class LoginService {
-private static LoginService instance;
+	private static LoginService instance;
 	
 	private LoginService() { }
 	
@@ -12,7 +12,6 @@ private static LoginService instance;
 		if (instance == null) {
 			instance = new LoginService();
 		}
-		
 		return instance;
 	}
 
