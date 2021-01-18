@@ -59,15 +59,20 @@ public class GatewayVueling implements IGatewayAerolinea{
 				out.writeUTF(request);
 				
 				String response = in.readUTF();
-				System.out.println("    -> Vuelos response:" + response);
+				System.out.println("    <- Vuelos response:" + response);
+				
+				//esto no se si sobra
+				if(response.startsWith("OK")) {
+					//vuelos = response.substring(response.indexOf('#')+1)
+				}
 							
 		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
+			System.out.println("# Error: " + e.getMessage());
 		}
 		return vuelos;
 	}
 	
-	//no se si esta bien
+	//no se si esta bien (no se como pasarle el nombre de pasajeros)
 	@Override
 	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
 		Reserva reserva = null;
@@ -76,15 +81,20 @@ public class GatewayVueling implements IGatewayAerolinea{
 			DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 			DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
 							
-			String request = vuelo.getCod_vuelo();
+			String request = vuelo.getCod_vuelo() + "#" + importe + "#" + fecha + "#" + nombre_pasajeros;
 			System.out.println("    -> Vuelo request:" + request);
 			out.writeUTF(request);
 			
 			String response = in.readUTF();
-			System.out.println("    -> Vuelos response:" + response);
+			System.out.println("    <- Vuelos response:" + response);
+			
+			//esto no se si sobra
+			if(response.startsWith("OK")) {
+				//vuelos = response.substring(response.indexOf('#')+1)
+			}
 					
 		} catch (Exception e) {
-			System.out.println("Error: " + e.getMessage());
+			System.out.println("# Error: " + e.getMessage());
 		}
 		
 		return reserva;
