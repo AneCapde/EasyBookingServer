@@ -1,6 +1,7 @@
 package es.deusto.ingenieria.sd.easyB.server.gateway;
 
 import java.rmi.Naming;
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 
@@ -13,7 +14,7 @@ import paypal.server.remote.IPayPal;
 public class GatewayIberia implements IGatewayAerolinea{
 	
 	private String ip = "127.0.0.1";
-	private int port = 2000;
+	private int port = 2001;
 	private String serviceName = "Iberia";
 	private IIberia service;
 	
@@ -33,9 +34,19 @@ public class GatewayIberia implements IGatewayAerolinea{
 	}
 
 	@Override
-	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
-		// TODO Auto-generated method stub
-		return null;
+	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros)throws RemoteException  {
+		Reserva reserva = null;
+		if (this.service.reservarVuelo(vuelo.getCod_vuelo())) {
+			reserva.setFecha(fecha);
+			reserva.setImporte(importe);
+			reserva.setNombre_pasajeros(nombre_pasajeros);
+			reserva.setNumero_asientos(num_pasajeros);
+			reserva.setVuelo(vuelo);
+			System.out.println("Se ha realizado la reserva correctamente");
+		}else {
+			System.out.println("No se ha podido realizar la reserva");
+		}
+		return reserva;
 	}
 
 }
