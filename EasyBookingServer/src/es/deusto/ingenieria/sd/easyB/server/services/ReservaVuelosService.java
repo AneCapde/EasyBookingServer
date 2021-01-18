@@ -1,5 +1,6 @@
 package es.deusto.ingenieria.sd.easyB.server.services;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -16,7 +17,9 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea;
 import es.deusto.ingenieria.sd.easyB.server.gateway.IGatewayAerolinea;
+import es.deusto.ingenieria.sd.easyB.server.gateway.IGatewayPago;
 import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea.TipoAerolineas;
+import es.deusto.ingenieria.sd.easyB.server.gateway.GatewayPaypal;
 
 public class ReservaVuelosService {
 	
@@ -44,6 +47,20 @@ public class ReservaVuelosService {
 		TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
 		//FactGatewayAerolinea.getInstance().createGateway(aerolinea).reservarVuelo(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
 		return true;
+	}
+	public boolean realizarPago(String email, String password, double cantidad) {
+		try {
+			if (GatewayPaypal.getIntance().realizarPago(email, password, cantidad)) {
+				
+				return true;
+			}else {
+				return false;
+			}
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
+		return false;
+		
 	}
 	
 	

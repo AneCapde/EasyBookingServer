@@ -20,7 +20,6 @@ import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea.TipoAer
 public class BusquedaVuelosService {
 	
 	private static BusquedaVuelosService instance;
-	private IGatewayAerolinea Aerolinea;
 
 	private BusquedaVuelosService() { }
 	

@@ -4,5 +4,5 @@ import java.rmi.RemoteException;
 
 public interface IGatewayPago {
 	
-	public void realizarPago(String email, String password, double cantidad) throws RemoteException;
+	public boolean realizarPago(String email, String password, double cantidad) throws RemoteException;
 }

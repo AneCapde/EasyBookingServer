@@ -94,5 +94,14 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 		return true;
 	}
 
+	@Override
+	public boolean realizarPago(String email, String password, double cantidad) throws RemoteException {
+		if (ReservaVuelosService.getInstance().realizarPago(email, password, cantidad)) {
+			return true;
+		}else {
+			return false;
+		}
+	}
+
 
 }

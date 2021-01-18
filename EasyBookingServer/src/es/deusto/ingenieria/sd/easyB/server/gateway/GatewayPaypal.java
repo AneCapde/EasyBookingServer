@@ -11,6 +11,7 @@ public class GatewayPaypal implements IGatewayPago{
 	private int port = 2000;
 	private String serviceName = "PayPal";
 	private IPayPal service;
+	private static IGatewayPago instance;
 	
 	public GatewayPaypal() {
 		try {
@@ -21,13 +22,22 @@ public class GatewayPaypal implements IGatewayPago{
     	}
 	}
 	
+	public static IGatewayPago getIntance() {
+		if (instance == null) {
+			instance = new GatewayPaypal();
+		}
+		return instance;
+	}
+	
 
 	@Override
-	public void realizarPago(String email, String password, double cantidad) throws RemoteException {
+	public boolean realizarPago(String email, String password, double cantidad) throws RemoteException {
 		if (this.service.pagar(email, password, cantidad)) {
 			System.out.println("Se ha realizado el pago correctamente");
+			return true;
 		}else {
 			System.out.println("No se ha podido realizar el pago");
+			return false;
 		}
 	}
 
