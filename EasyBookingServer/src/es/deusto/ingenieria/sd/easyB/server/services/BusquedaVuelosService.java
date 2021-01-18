@@ -13,8 +13,9 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
-
+import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea;
 import es.deusto.ingenieria.sd.easyB.server.gateway.IGatewayAerolinea;
+import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea.TipoAerolineas;
 
 public class BusquedaVuelosService {
 	
@@ -45,11 +46,12 @@ public class BusquedaVuelosService {
 	public List<AerolineaDTO> getAerolineas(Aerolinea aerolineas) {
 		//return AerolineaAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(TipoAerolineas.Vueling));
 		return (List<AerolineaDTO>) AerolineaAssembler.getInstance().entityToDTO(aerolineas);
-
 	}
 	
-	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
-		return this.Aerolinea.buscarVuelos(origen, destino, fecha, num_pasajeros);	
+	public ArrayList<VueloDTO> buscarVuelos(Vuelo vuelo, Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+//		return this.Aerolinea.buscarVuelos(origen, destino, fecha, num_pasajeros);	
+		TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
+		return FactGatewayAerolinea.getInstance().createGateway(aerolinea).buscarVuelos(origen, destino, fecha, num_pasajeros);
 	}
 
 }

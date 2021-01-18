@@ -10,6 +10,7 @@ import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
+import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 
 public class GatewayVueling implements IGatewayAerolinea{
 	//comunicación mediante socket
@@ -46,8 +47,8 @@ public class GatewayVueling implements IGatewayAerolinea{
 	}
 
 	@Override
-	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
-		ArrayList<Vuelo> vuelos = null;
+	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+		ArrayList<VueloDTO> vuelos = null;
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 				DataInputStream in = new DataInputStream(tcpSocket.getInputStream());

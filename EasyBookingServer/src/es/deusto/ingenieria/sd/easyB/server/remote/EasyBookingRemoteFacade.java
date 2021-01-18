@@ -72,10 +72,10 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	}
 
 	@Override
-	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros)
+	public ArrayList<VueloDTO> buscarVuelos(Vuelo vuelo, Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros)
 			throws RemoteException {
 		System.out.println(" * RemoteFaçade buscarVuelos: ");
-		return BusquedaVuelosService.getInstance().buscarVuelos(origen, destino, fecha, num_pasajeros);
+		return BusquedaVuelosService.getInstance().buscarVuelos(vuelo, origen, destino, fecha, num_pasajeros);
 	}
 
 	@Override
