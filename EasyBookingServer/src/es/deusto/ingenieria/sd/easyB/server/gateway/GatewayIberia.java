@@ -8,6 +8,7 @@ import java.util.Date;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
+import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import iberia.server.remote.IIberia;
 import paypal.server.remote.IPayPal;
 
@@ -28,7 +29,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 	}
 
 	@Override
-	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
 		// TODO Auto-generated method stub
 		return null;
 	}
