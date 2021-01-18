@@ -3,7 +3,6 @@ package es.deusto.ingenieria.sd.easyB.server.data.dto;
 import java.util.ArrayList;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
-import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 
 public class AerolineaAssembler {
 
