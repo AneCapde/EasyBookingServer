@@ -3,18 +3,16 @@ package es.deusto.ingenieria.sd.easyB.server.gateway;
 import java.rmi.Naming;
 import java.rmi.RemoteException;
 
-
-import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
-import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
-import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
+import es.deusto.ingenieria.sd.easyB.server.services.LoginService;
 import google.server.remote.IGoogle;
 
 public class GatewayGoogle implements IGatewayAutorizacion{
 
 	private String ip = "127.0.0.1";
-	private int port = 2000;
+	private int port = 2001;
 	private String serviceName = "Google";
 	private IGoogle service;
+	private static IGatewayAutorizacion instance;
 	
 	public GatewayGoogle() {
 		try {
@@ -25,40 +23,42 @@ public class GatewayGoogle implements IGatewayAutorizacion{
     	}
 	}
 	
-	//DEVOLVER USUARIO?
+	public static IGatewayAutorizacion getInstance() {
+		if (instance == null) {
+			instance = new GatewayGoogle();
+		}
+		return instance;
+	}
+	
 	@Override
-	public Usuario login(String email, String password) {
-		Usuario usuario = null;
+	public boolean login(String email, String password) {
 		try {
 			if (this.service.login(email, password)) {
-				usuario = new Usuario();
 				System.out.println("Se ha realizado el login correctamente");
+				return true;
 			}else {
 				System.out.println("No se ha podido realizar el login correctamente");
+				return false;
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return usuario;
+		return false;
 	}
 	
 	@Override
-	public Usuario registrarUsuario(String email, String password) {
-		Usuario usuario = null;
+	public boolean registrarUsuario(String email, String password) {
 		try {
 			if (this.service.registrarUsuario(email, password)) {
-				usuario = new Usuario();
 				System.out.println("Se ha realizado el registro correctamente");
+				return true;
 			}else {
 				System.out.println("No se ha podido realizar el registro correctamente");
+				return false;
 			}
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		
-		return usuario;
-	
+		return false;
 	}
-
-
 }

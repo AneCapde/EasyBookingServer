@@ -25,7 +25,6 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 
 	private static final long serialVersionUID = 1L;
 	private static EasyBookingRemoteFacade instance;
-	public Usuario state;
 	
 	private EasyBookingRemoteFacade() throws RemoteException {
 		super();		
@@ -45,16 +44,25 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 
 	public boolean registrarUsuario(String email, String password, String tipoPago, String aeroPref) throws RemoteException{
 		System.out.println(" * RemoteFaçade registro: " + email + " / " + password + " / " + tipoPago + " / " + aeroPref);
-		this.state = LoginService.getInstance().registrarUsuario(email, password, tipoPago, aeroPref);
+		if (LoginService.getInstance().registrarUsuario(email, password, tipoPago, aeroPref)) {
+			System.out.println("Se ha relizado el registro de usuario correctamente ");
+			return true;
+		}else {
+			System.out.println("Se ha producido un error durante el registro de usuario");
+			return false;
+		}
 		
-		return state != null;
 	}
 	
 	public boolean login(String email, String password) throws RemoteException{
 		System.out.println(" * RemoteFaçade login: " + email + " / " + password);
-		this.state = LoginService.getInstance().login(email, password);
-		
-		return state != null;
+		if (LoginService.getInstance().login(email, password)) {
+			System.out.println("Se ha relizado el login de usuario correctamente ");
+			return true;
+		}else {
+			System.out.println("Se ha producido un error durante el login");
+			return false;
+		}
 	}
 	
 	public List<VueloDTO> getVuelos(String aeropuertoName) throws RemoteException{
