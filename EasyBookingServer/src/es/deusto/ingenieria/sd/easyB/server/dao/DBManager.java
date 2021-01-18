@@ -169,7 +169,7 @@ public class DBManager implements IDBManeger{
 			Extent<Aeropuerto> extent = pm.getExtent(Aeropuerto.class, true);
 
 			for (Aeropuerto aeropuerto : extent) {
-				aeropuerto.add(aeropuerto);
+				aeropuertos.add(aeropuerto);
 			}
 
 			tx.commit();
@@ -438,7 +438,7 @@ public class DBManager implements IDBManeger{
 			Extent<Reserva> extent = pm.getExtent(Reserva.class, true);
 
 			for (Reserva reserva : extent) {
-				reserva.add(reserva);
+				reservas.add(reserva);
 			}
 
 			tx.commit();

@@ -27,7 +27,8 @@ public class VueloAssembler {
 		dto.setPrecio(vuelo.getPrecio());
 		dto.setAero_destino(AeropuertoAssembler.getInstance().entityToDTO(vuelo.getDestino()));
 		dto.setAero_origen(AeropuertoAssembler.getInstance().entityToDTO(vuelo.getDestino()));
-				
+		dto.setAerolinea(AerolineaAssembler.getInstance().entityToDTO(vuelo.getAerolinea()));	
+		
 		return dto;
 	}
 	
@@ -38,5 +39,17 @@ public class VueloAssembler {
 		}
 		return dtos;		
 	}
-	
+	public Vuelo getVuelo(VueloDTO vueloDTO) {
+		Vuelo v = new Vuelo();
+		
+		v.setCod_vuelo(vueloDTO.getCod_vuelo());
+		v.setLlegada(vueloDTO.getLlegada());
+		v.setSalida(vueloDTO.getSalida());
+		v.setPrecio(vueloDTO.getPrecio());
+		v.setDestino(AeropuertoAssembler.getInstance().getAeropuerto(vueloDTO.getAero_destino()));
+		v.setOrigen(AeropuertoAssembler.getInstance().getAeropuerto(vueloDTO.getAero_origen()));
+		v.setAerolinea(AerolineaAssembler.getInstance().getAerolinea(vueloDTO.getAerolinea()));
+		
+		return v;
+	}
 }

@@ -14,6 +14,7 @@ public class VueloDTO implements Serializable{
 	private double precio;
 	private AeropuertoDTO aero_origen;
 	private AeropuertoDTO aero_destino;
+	private AerolineaDTO aerolinea;
 	
 	public AeropuertoDTO getAero_origen() {
 		return aero_origen;
@@ -50,5 +51,11 @@ public class VueloDTO implements Serializable{
 	}
 	public void setPrecio(double precio) {
 		this.precio = precio;
+	}
+	public AerolineaDTO getAerolinea() {
+		return aerolinea;
+	}
+	public void setAerolinea(AerolineaDTO aerolinea) {
+		this.aerolinea = aerolinea;
 	}
 }

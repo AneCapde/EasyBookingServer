@@ -34,4 +34,10 @@ public class AeropuertoAssembler {
 		}
 		return dtos;		
 	}
+	public Aeropuerto getAeropuerto(AeropuertoDTO aeropuertoDTO) {
+		Aeropuerto a1 = new Aeropuerto();
+		a1.setCod_aeropuerto(aeropuertoDTO.getCod_aeropuerto());
+		a1.setNombre(aeropuertoDTO.getNombre());
+		return a1;
+	}
 }

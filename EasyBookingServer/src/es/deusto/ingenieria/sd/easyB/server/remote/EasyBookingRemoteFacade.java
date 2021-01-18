@@ -7,7 +7,9 @@ import java.util.Date;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
+import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
+import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import es.deusto.ingenieria.sd.easyB.server.services.BusquedaVuelosService;
 import es.deusto.ingenieria.sd.easyB.server.services.LoginService;
@@ -59,16 +61,22 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	}
 
 	@Override
-	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) throws RemoteException {
+	public ArrayList<VueloDTO> buscarVuelos(AeropuertoDTO origenDTO, AeropuertoDTO destinoDTO, Date fecha, int num_pasajeros) throws RemoteException {
 		System.out.println(" * RemoteFaçade buscarVuelos: ");
+		Aeropuerto origen = AeropuertoAssembler.getInstance().getAeropuerto(origenDTO);
+		Aeropuerto destino = AeropuertoAssembler.getInstance().getAeropuerto(destinoDTO);
 		return BusquedaVuelosService.getInstance().buscarVuelos(origen, destino, fecha, num_pasajeros);
 	}
 
 	@Override
-	public boolean reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) throws RemoteException {
+	public boolean reservaVuelos(VueloDTO vueloDTO, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) throws RemoteException {
 		System.out.println(" * RemoteFaçade reservaVuelos: ");
-		ReservaVuelosService.getInstance().reservaVuelos(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
-		return true;
+		Vuelo vuelo = VueloAssembler.getInstance().getVuelo(vueloDTO);
+		if (ReservaVuelosService.getInstance().reservaVuelos(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros)) {
+			return true;
+		}else {
+			return false;
+		}
 	}
 
 	@Override
