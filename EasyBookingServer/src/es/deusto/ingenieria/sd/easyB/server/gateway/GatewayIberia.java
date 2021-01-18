@@ -28,10 +28,26 @@ public class GatewayIberia implements IGatewayAerolinea{
     	}
 	}
 
+	//comprobar este metodo
 	@Override
 	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
-		// TODO Auto-generated method stub
-		return null;
+		ArrayList<Vuelo> vuelos = null;
+		//aqui no se muy bien que pasarle (tengo el problema con los aeropuertos)
+		try {
+			if(this.service.buscarVuelos(origen.getNombre(), destino.getNombre(), fecha,num_pasajeros)) {
+				for (Vuelo vuelo : vuelos) {
+					vuelo.setOrigen(origen);
+					vuelo.setDestino(destino);
+					vuelo.setSalida(fecha);
+					//falta el numero de pasajeros 
+				}
+				
+			}
+		} catch (RemoteException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+		return vuelos;
 	}
 
 	@Override
