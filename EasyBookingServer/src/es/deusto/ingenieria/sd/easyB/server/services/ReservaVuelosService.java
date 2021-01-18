@@ -45,13 +45,18 @@ public class ReservaVuelosService {
 	
 	public boolean reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
 		TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
-		//FactGatewayAerolinea.getInstance().createGateway(aerolinea).reservarVuelo(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
+		Reserva r = null;
+		try {
+			r = FactGatewayAerolinea.getInstance().createGateway(aerolinea).reservarVuelo(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
+			
+		} catch (RemoteException e) {
+			e.printStackTrace();
+		}
 		return true;
 	}
 	public boolean realizarPago(String email, String password, double cantidad) {
 		try {
 			if (GatewayPaypal.getIntance().realizarPago(email, password, cantidad)) {
-				
 				return true;
 			}else {
 				return false;

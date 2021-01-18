@@ -18,23 +18,22 @@ import es.deusto.ingenieria.sd.easyB.server.data.SistemaPago;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 
-public class DBManager {
-	private static DBManager instance = null;
+public class DBManager implements IDBManeger{
+	private static IDBManeger instance;
 	private PersistenceManagerFactory pmf = null;
 	
 	private DBManager() {
 		pmf = JDOHelper.getPersistenceManagerFactory("datanucleus.properties");		
 	}
 	
-	public static DBManager getInstance() {
+	public static IDBManeger getInstance() {
 		if (instance == null) {
 			instance = new DBManager();
-			//instance.initializeData();
 		}		
 		
 		return instance;
 	}
-	
+	@Override
 	public void deleteData() {
 		List<Usuario> users = DBManager.getInstance().getUsers();
 		
@@ -42,7 +41,7 @@ public class DBManager {
 			DBManager.getInstance().deleteObjectFromDB(user);
 		}
 	}
-	
+	@Override
 	public void deleteObjectFromDB(Object object) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -65,7 +64,7 @@ public class DBManager {
 			pm.close();
 		}
 	}
-	
+	@Override
 	public void storeObjectInDB(Object object) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -86,31 +85,31 @@ public class DBManager {
 			pm.close();
 		}
 	}
-
+	@Override
 	public void store(Usuario user) {
 		DBManager.getInstance().storeObjectInDB(user);	
 	}
-	
+	@Override
 	public void store(Vuelo vuelo) {
 		DBManager.getInstance().storeObjectInDB(vuelo);	
 	}
-
+	@Override
 	public void store(Aeropuerto aeropuerto) {
 		DBManager.getInstance().storeObjectInDB(aeropuerto);	
 	}
-
+	@Override
 	public void store(Pago pago) {
 		DBManager.getInstance().storeObjectInDB(pago);
 	}
-	
+	@Override
 	public void store(Reserva reserva) {
 		DBManager.getInstance().storeObjectInDB(reserva);
 	}
-	
+	@Override
 	public void store(SistemaPago sistemaPago) {
 		DBManager.getInstance().storeObjectInDB(sistemaPago);
 	}
-	
+	@Override
 	public Aeropuerto getAeropuerto(String aeropuertoName) {		
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -138,7 +137,7 @@ public class DBManager {
 
 		return aeropuerto;
 	}
-	
+	@Override
 	public void updateAeropuerto(Aeropuerto aeropuerto) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -155,7 +154,7 @@ public class DBManager {
 			pm.close();
 		}
 	}
-	
+	@Override
 	public List<Aeropuerto> getAeropuertos() {
 		List<Aeropuerto> aeropuertos = new ArrayList<>();		
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -218,7 +217,7 @@ public class DBManager {
 		}
 		return aeropuertos;
 	}
-	
+	@Override
 	public void deleteAllAeropuertos() {
 		System.out.println("- Cleaning the Aeropuertos from the DB...");
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -242,7 +241,7 @@ public class DBManager {
 		}
 	}
 	
-	
+	@Override
 	public Vuelo getVuelo(String cod_vuelo) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
@@ -268,7 +267,7 @@ public class DBManager {
 		}
 		return vuelo;
 	}
-
+	@Override
 	public void updateVuelo(Vuelo vuelo) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -286,7 +285,7 @@ public class DBManager {
 		}
 		
 	}
-	
+	@Override
 	public List<Vuelo> getVuelo() {
 		List<Vuelo> vuelos = new ArrayList<>();		
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -317,7 +316,7 @@ public class DBManager {
 
 		return vuelos;		
 	}
-	
+	@Override
 	public ArrayList<Vuelo> getVuelos(String aeropuertoName) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
@@ -346,7 +345,7 @@ public class DBManager {
 		}
 		return vuelos;
 	}
-
+	@Override
 	public void deleteAllVuelos() {
 		System.out.println("- Cleaning the Vuelos from the DB...");
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -379,7 +378,7 @@ public class DBManager {
 			}
 		}
 	}
-	
+	@Override
 	public Reserva getReserva(String nombrePasajero) {		
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -407,7 +406,7 @@ public class DBManager {
 
 		return reserva;
 	}
-	
+	@Override
 	public void updateReserva(Reserva reserva) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -424,7 +423,7 @@ public class DBManager {
 			pm.close();
 		}
 	}
-	
+	@Override
 	public List<Reserva> getReservas() {
 		List<Reserva> reservas = new ArrayList<>();		
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -488,7 +487,7 @@ public class DBManager {
 
 		return reservas;
 	}
-
+	@Override
 	public void deleteAllReservas() {
 		System.out.println("- Cleaning the Reservas from the DB...");
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -512,7 +511,7 @@ public class DBManager {
 		}
 	}
 	
-	
+	@Override
 	public Usuario getUser(String email) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -540,7 +539,7 @@ public class DBManager {
 
 		return user;
 	}
-	
+	@Override
 	public void updateUsuario(Usuario usuario) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -558,7 +557,7 @@ public class DBManager {
 		}
 		
 	}
-	
+	@Override
 	public List<Usuario> getUsers() {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -588,7 +587,7 @@ public class DBManager {
 
 		return users;
 	}
-	
+	@Override
 	public void deleteAllUsuarios() {
 		System.out.println("- Cleaning the Usuarios from the DB...");
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -621,7 +620,7 @@ public class DBManager {
 			}
 		}
 	}
-
+	@Override
 	public Pago getPago(Date fecha) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -650,7 +649,7 @@ public class DBManager {
 		return pago;
 	}
 
-
+	@Override
 	public void updatePago(Pago pago) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -668,7 +667,7 @@ public class DBManager {
 		}	
 	}
 
-
+	@Override
 	public List<Pago> getPagos() {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
@@ -730,7 +729,7 @@ public class DBManager {
 
 		return pagos;
 	}
-
+	@Override
 	public void deleteAllPagos() {
 		System.out.println("- Cleaning the Pagos from the DB...");
 		PersistenceManager pm = pmf.getPersistenceManager();
@@ -754,7 +753,7 @@ public class DBManager {
 		}
 		
 	}
-	
+	@Override
 	public SistemaPago getSistemaPago(Date fecha) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(4);
@@ -782,7 +781,7 @@ public class DBManager {
 
 		return sisPago;
 	}
-
+	@Override
 	public void updatePago(SistemaPago sistemaPago) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		Transaction tx = pm.currentTransaction();
@@ -799,7 +798,7 @@ public class DBManager {
 			pm.close();
 		}
 	}
-
+	@Override
 	public List<SistemaPago> getSistemaPagos() {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
@@ -860,7 +859,7 @@ public class DBManager {
 		}
 		return sistemas;
 	}
-
+	@Override
 	public void deleteAllSistemaPagos() {
 		System.out.println("- Cleaning the Sistemas de Pago from the DB...");
 		PersistenceManager pm = pmf.getPersistenceManager();
