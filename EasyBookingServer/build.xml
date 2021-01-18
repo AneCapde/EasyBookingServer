@@ -61,7 +61,7 @@
 	 </target>
 	
 	<target name="6.server" description="Runs the Server">
-		<java classname="es.deusto.ingenieria.sd,easyB.server.EasyBookingServer" classpathref="classpath" fork="true">
+		<java classname="es.deusto.ingenieria.sd.easyB.server.EasyBookingServer" classpathref="classpath" fork="true">
 	        <jvmarg value="-Djava.rmi.server.codebase=file:${bin.dir}/"/>
 			<jvmarg value="-Djava.security.policy=${policy.file}"/>
 			<jvmarg value="-Dlog4j.configuration=log4j.properties"/>
