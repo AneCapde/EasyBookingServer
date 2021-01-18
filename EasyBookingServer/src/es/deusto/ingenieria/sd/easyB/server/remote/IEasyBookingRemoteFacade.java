@@ -8,8 +8,6 @@ import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
-import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
-import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AerolineaDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
