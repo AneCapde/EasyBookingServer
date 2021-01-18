@@ -47,8 +47,8 @@ public class GatewayVueling implements IGatewayAerolinea{
 	}
 
 	@Override
-	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
-		ArrayList<VueloDTO> vuelos = null;
+	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+		ArrayList<Vuelo> vuelos = null;
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 				DataInputStream in = new DataInputStream(tcpSocket.getInputStream());

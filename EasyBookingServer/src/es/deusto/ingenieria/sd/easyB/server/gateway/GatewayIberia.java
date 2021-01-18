@@ -29,7 +29,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 	}
 
 	@Override
-	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
 		// TODO Auto-generated method stub
 		return null;
 	}

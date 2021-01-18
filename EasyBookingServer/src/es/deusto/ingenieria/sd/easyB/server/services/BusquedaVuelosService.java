@@ -48,10 +48,11 @@ public class BusquedaVuelosService {
 		return (List<AerolineaDTO>) AerolineaAssembler.getInstance().entityToDTO(aerolineas);
 	}
 	
-	public ArrayList<VueloDTO> buscarVuelos(Vuelo vuelo, Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
 //		return this.Aerolinea.buscarVuelos(origen, destino, fecha, num_pasajeros);	
-		TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
-		return FactGatewayAerolinea.getInstance().createGateway(aerolinea).buscarVuelos(origen, destino, fecha, num_pasajeros);
+		//TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
+		//return FactGatewayAerolinea.getInstance().createGateway(aerolinea).buscarVuelos(origen, destino, fecha, num_pasajeros);
+	return null;
 	}
 
 }

@@ -14,6 +14,7 @@ import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AerolineaDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
+import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import es.deusto.ingenieria.sd.easyB.server.services.BusquedaVuelosService;
 import es.deusto.ingenieria.sd.easyB.server.services.LoginService;
@@ -72,16 +73,17 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	}
 
 	@Override
-	public ArrayList<VueloDTO> buscarVuelos(Vuelo vuelo, Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros)
-			throws RemoteException {
+	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) throws RemoteException {
 		System.out.println(" * RemoteFaçade buscarVuelos: ");
-		return BusquedaVuelosService.getInstance().buscarVuelos(vuelo, origen, destino, fecha, num_pasajeros);
+		//VueloAssembler.getInstance().entityToDTO(BusquedaVuelosService.getInstance().buscarVuelos(origen, destino, fecha, num_pasajeros));
+		return null;
 	}
 
 	@Override
-	public Reserva reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) throws RemoteException {
+	public boolean reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) throws RemoteException {
 		System.out.println(" * RemoteFaçade reservaVuelos: ");
-		return ReservaVuelosService.getInstance().reservaVuelos(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
+		ReservaVuelosService.getInstance().reservaVuelos(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
+		return true;
 	}
 
 
