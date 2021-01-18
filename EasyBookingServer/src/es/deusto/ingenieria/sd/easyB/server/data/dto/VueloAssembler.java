@@ -25,6 +25,8 @@ public class VueloAssembler {
 		dto.setLlegada(vuelo.getLlegada());
 		dto.setSalida(vuelo.getSalida());
 		dto.setPrecio(vuelo.getPrecio());
+		dto.setAero_destino(AeropuertoAssembler.getInstance().entityToDTO(vuelo.getDestino()));
+		dto.setAero_origen(AeropuertoAssembler.getInstance().entityToDTO(vuelo.getDestino()));
 				
 		return dto;
 	}

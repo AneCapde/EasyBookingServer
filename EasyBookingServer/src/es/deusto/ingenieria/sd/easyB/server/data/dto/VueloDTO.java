@@ -12,19 +12,19 @@ public class VueloDTO implements Serializable{
 	private Date llegada; 
 	private Date salida;
 	private double precio;
-	private Aeropuerto aero_origen;
-	private Aeropuerto aero_destino;
+	private AeropuertoDTO aero_origen;
+	private AeropuertoDTO aero_destino;
 	
-	public Aeropuerto getAero_origen() {
+	public AeropuertoDTO getAero_origen() {
 		return aero_origen;
 	}
-	public void setAero_origen(Aeropuerto aero_origen) {
+	public void setAero_origen(AeropuertoDTO aero_origen) {
 		this.aero_origen = aero_origen;
 	}
-	public Aeropuerto getAero_destino() {
+	public AeropuertoDTO getAero_destino() {
 		return aero_destino;
 	}
-	public void setAero_destino(Aeropuerto aero_destino) {
+	public void setAero_destino(AeropuertoDTO aero_destino) {
 		this.aero_destino = aero_destino;
 	}
 	public String getCod_vuelo() {

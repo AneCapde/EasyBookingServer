@@ -3,6 +3,7 @@ package es.deusto.ingenieria.sd.easyB.server.data.dto;
 import java.util.ArrayList;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
+import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 
 public class AerolineaAssembler {
 
@@ -22,7 +23,11 @@ public class AerolineaAssembler {
 		
 		dto.setCod_aero(aerolinea.getCod_aero());
 		dto.setNombre(aerolinea.getNombre());
-				
+		
+		ArrayList<VueloDTO> vuelos = new ArrayList<>();
+		for (Vuelo v : aerolinea.getVuelos()) {
+			vuelos.add(VueloAssembler.getInstance().entityToDTO(v));
+		}
 		return dto;
 	}
 	
