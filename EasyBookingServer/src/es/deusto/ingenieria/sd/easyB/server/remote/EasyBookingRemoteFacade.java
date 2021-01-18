@@ -79,9 +79,9 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	}
 
 	@Override
-	public Reserva reservaVuelos(Vuelo vuelo) throws RemoteException {
+	public Reserva reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) throws RemoteException {
 		System.out.println(" * RemoteFaçade reservaVuelos: ");
-		return ReservaVuelosService.getInstance().reservaVuelos(vuelo);
+		return ReservaVuelosService.getInstance().reservaVuelos(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
 	}
 
 

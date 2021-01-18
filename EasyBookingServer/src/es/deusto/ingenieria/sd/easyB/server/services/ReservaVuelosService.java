@@ -4,6 +4,8 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
+import javax.swing.plaf.multi.MultiPopupMenuUI;
+
 import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
@@ -12,12 +14,13 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloAssembler;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
+import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea;
 import es.deusto.ingenieria.sd.easyB.server.gateway.IGatewayAerolinea;
+import es.deusto.ingenieria.sd.easyB.server.gateway.FactGatewayAerolinea.TipoAerolineas;
 
 public class ReservaVuelosService {
 	
 	private static ReservaVuelosService instance;
-	private IGatewayAerolinea Aerolinea;
 
 	private ReservaVuelosService() { }
 	
@@ -37,8 +40,10 @@ public class ReservaVuelosService {
 		return VueloAssembler.getInstance().entityToDTO(DBManager.getInstance().getVuelos(aeropuertoName));
 	}
 	
-	public Reserva reservaVuelos(Vuelo vuelo) {
-		return this.Aerolinea.reservarVuelo(vuelo);
+	public Reserva reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
+		TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
+		return FactGatewayAerolinea.getInstance().createGateway(aerolinea).reservarVuelo(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
+		
 	}
 	
 	

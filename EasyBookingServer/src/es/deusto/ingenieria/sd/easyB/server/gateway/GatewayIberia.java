@@ -33,7 +33,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 	}
 
 	@Override
-	public Reserva reservarVuelo(Vuelo vuelo) {
+	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
 		// TODO Auto-generated method stub
 		return null;
 	}

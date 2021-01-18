@@ -67,7 +67,7 @@ public class GatewayVueling implements IGatewayAerolinea{
 	}
 	
 	@Override
-	public Reserva reservarVuelo(Vuelo vuelo) {
+	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
 		Reserva vue = null;
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
