@@ -9,6 +9,7 @@ import javax.swing.plaf.multi.MultiPopupMenuUI;
 
 import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
+import es.deusto.ingenieria.sd.easyB.server.data.Pago;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoAssembler;
@@ -45,6 +46,8 @@ public class ReservaVuelosService {
 		try {
 			r = FactGatewayAerolinea.getInstance().createGateway(aerolinea).reservarVuelo(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
 			r.setVuelo(vuelo);
+			Pago p = new Pago();
+			r.setPago(p);
 			DBManager.getInstance().store(r);
 			return true;
 		} catch (RemoteException e) {
@@ -53,10 +56,20 @@ public class ReservaVuelosService {
 		return false;
 	}
 	public boolean realizarPago(String email, String password, double cantidad) {
+		ArrayList<Reserva> reservas = new ArrayList<>();
 		try {
 			if (GatewayPaypal.getIntance().realizarPago(email, password, cantidad)) {
+				reservas = (ArrayList<Reserva>) DBManager.getInstance().getReservas();
+				for (Reserva r : reservas) {
+					if (r.getImporte() == cantidad) {
+						Date fecha = java.util.Calendar.getInstance().getTime();
+						r.getPago().setFecha(fecha);
+						DBManager.getInstance().updatePago(r.getPago());
+					}
+				}
 				return true;
 			}else {
+				//delete reserva from database in case payment is not done properly
 				return false;
 			}
 		} catch (RemoteException e) {
