@@ -74,20 +74,20 @@ public class GatewayVueling implements IGatewayAerolinea{
 			DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 			DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
 							
-			//Vuelo request = this.vuelo;
-					
+//			String request = vuelo.getCod_vuelo();
+//			System.out.println("    -> Vuelo request:" + request);
+//			out.writeUTF(request);
+//			
+//			String response = in.readUTF();
+//			System.out.println("    -> Vuelos response:" + response);
+//					
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 		
 		return vue;
 	}
-
 	
-	//@Override
-//	public Vuelo recuperarInfo(int cod_vuelo) {
-		// TODO Auto-generated method stub
-//		return null;
-//	}
 	
 }
+
