@@ -67,26 +67,27 @@ public class GatewayVueling implements IGatewayAerolinea{
 		return vuelos;
 	}
 	
+	//no se si esta bien
 	@Override
 	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
-		Reserva vue = null;
+		Reserva reserva = null;
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 			DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 			DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
 							
-//			String request = vuelo.getCod_vuelo();
-//			System.out.println("    -> Vuelo request:" + request);
-//			out.writeUTF(request);
-//			
-//			String response = in.readUTF();
-//			System.out.println("    -> Vuelos response:" + response);
-//					
+			String request = vuelo.getCod_vuelo();
+			System.out.println("    -> Vuelo request:" + request);
+			out.writeUTF(request);
+			
+			String response = in.readUTF();
+			System.out.println("    -> Vuelos response:" + response);
+					
 		} catch (Exception e) {
 			System.out.println("Error: " + e.getMessage());
 		}
 		
-		return vue;
+		return reserva;
 	}
 	
 	
