@@ -26,7 +26,7 @@ public interface IDBManeger {
 	public List<Aeropuerto> getAeropuertos();
 	public ArrayList<Aeropuerto> getAeropuertos(String condition);
 	public void deleteAllAeropuertos();
-	public Vuelo getVuelo(int cod_vuelo);
+	public Vuelo getVuelo(String cod_vuelo);
 	public void updateVuelo(Vuelo vuelo);
 	public List<Vuelo> getVuelo();
 	public ArrayList<Vuelo> getVuelos(String aeropuertoName);

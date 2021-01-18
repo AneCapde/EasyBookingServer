@@ -243,7 +243,7 @@ public class DBManager {
 	}
 	
 	
-	public Vuelo getVuelo(int cod_vuelo) {
+	public Vuelo getVuelo(String cod_vuelo) {
 		PersistenceManager pm = pmf.getPersistenceManager();
 		pm.getFetchPlan().setMaxFetchDepth(3);
 		

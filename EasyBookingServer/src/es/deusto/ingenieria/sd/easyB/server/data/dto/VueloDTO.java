@@ -8,7 +8,7 @@ import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 public class VueloDTO implements Serializable{
 
 	private static final long serialVersionUID = 1L;
-	private int cod_vuelo;
+	private String cod_vuelo;
 	private Date llegada; 
 	private Date salida;
 	private double precio;
@@ -27,11 +27,11 @@ public class VueloDTO implements Serializable{
 	public void setAero_destino(Aeropuerto aero_destino) {
 		this.aero_destino = aero_destino;
 	}
-	public int getCod_vuelo() {
+	public String getCod_vuelo() {
 		return cod_vuelo;
 	}
-	public void setCod_vuelo(int cod_vuelo) {
-		this.cod_vuelo = cod_vuelo;
+	public void setCod_vuelo(String codVuelo) {
+		this.cod_vuelo = codVuelo;
 	}
 	public Date getLlegada() {
 		return llegada;

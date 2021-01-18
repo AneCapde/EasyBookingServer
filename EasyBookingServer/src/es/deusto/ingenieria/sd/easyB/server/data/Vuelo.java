@@ -11,7 +11,7 @@ import javax.jdo.annotations.Persistent;
 @PersistenceCapable(detachable = "true")
 public class Vuelo {
 	
-	private int cod_vuelo;
+	private String cod_vuelo;
 	@NotPersistent
 	private Date llegada; 
 	@NotPersistent
@@ -29,10 +29,10 @@ public class Vuelo {
 	private ArrayList<Reserva> reservas = new ArrayList<Reserva>();
 	
 	
-	public int getCod_vuelo() {
+	public String getCod_vuelo() {
 		return cod_vuelo;
 	}
-	public void setCod_vuelo(int cod_vuelo) {
+	public void setCod_vuelo(String cod_vuelo) {
 		this.cod_vuelo = cod_vuelo;
 	}
 	public Date getLlegada() {
