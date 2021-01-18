@@ -81,7 +81,7 @@ public class GatewayVueling implements IGatewayAerolinea{
 			DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 			DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
 							
-			String request = vuelo.getCod_vuelo() + "#" + importe + "#" + fecha + "#" + nombre_pasajeros;
+			String request = vuelo.getCod_vuelo() + "#" + importe + "#" + num_pasajeros+ "#"+ fecha + "#" + nombre_pasajeros;
 			System.out.println("    -> Vuelo request:" + request);
 			out.writeUTF(request);
 			
