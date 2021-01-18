@@ -48,11 +48,13 @@ public class ReservaVuelosService {
 		Reserva r = null;
 		try {
 			r = FactGatewayAerolinea.getInstance().createGateway(aerolinea).reservarVuelo(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
-			
+			r.setVuelo(vuelo);
+			DBManager.getInstance().store(r);
+			return true;
 		} catch (RemoteException e) {
 			e.printStackTrace();
 		}
-		return true;
+		return false;
 	}
 	public boolean realizarPago(String email, String password, double cantidad) {
 		try {
