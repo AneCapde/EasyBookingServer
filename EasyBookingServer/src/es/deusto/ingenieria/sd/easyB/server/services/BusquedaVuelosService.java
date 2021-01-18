@@ -34,24 +34,17 @@ public class BusquedaVuelosService {
 	public List<AeropuertoDTO> getAeropuertos() {
 		return AeropuertoAssembler.getInstance().entityToDTO(DBManager.getInstance().getAeropuertos());
 	}
-	
-	public List<VueloDTO> getVuelos(String aeropuertoName) {
-		return VueloAssembler.getInstance().entityToDTO(DBManager.getInstance().getVuelos(aeropuertoName));
-	}
-	
-
-	//Este metodo no tenia claro lo que tiene que obtener da problemas
-	@SuppressWarnings("unchecked")
-	public List<AerolineaDTO> getAerolineas(Aerolinea aerolineas) {
-		//return AerolineaAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(TipoAerolineas.Vueling));
-		return (List<AerolineaDTO>) AerolineaAssembler.getInstance().entityToDTO(aerolineas);
-	}
-	
-	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
-//		return this.Aerolinea.buscarVuelos(origen, destino, fecha, num_pasajeros);	
-		//TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
-		//return FactGatewayAerolinea.getInstance().createGateway(aerolinea).buscarVuelos(origen, destino, fecha, num_pasajeros);
-	return null;
+		
+	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {	
+		ArrayList<VueloDTO> vuelos = new ArrayList<>();
+		ArrayList<VueloDTO> vuelos_server = new ArrayList<>();
+		for (TipoAerolineas tipo : TipoAerolineas.values()) {
+			vuelos_server = (ArrayList<VueloDTO>) VueloAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(tipo).buscarVuelos(origen, destino, fecha, num_pasajeros));
+			for (VueloDTO vD : vuelos_server) {
+				vuelos.add(vD);
+			}
+		}
+		return vuelos;
 	}
 
 }

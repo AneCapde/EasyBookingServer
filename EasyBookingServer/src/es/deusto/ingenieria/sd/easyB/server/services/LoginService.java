@@ -45,7 +45,7 @@ public class LoginService {
 	}
 	public boolean login(String email, String contraseña) {
 		try {
-			if (GatewayGoogle.getInstance().registrarUsuario(email, contraseña)) {
+			if (GatewayGoogle.getInstance().login(email, contraseña)) {
 				return true;
 			}else {
 				return false;
