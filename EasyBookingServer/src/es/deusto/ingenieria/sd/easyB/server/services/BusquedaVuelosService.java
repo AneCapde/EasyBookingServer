@@ -1,5 +1,6 @@
 package es.deusto.ingenieria.sd.easyB.server.services;
 
+import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
@@ -39,7 +40,12 @@ public class BusquedaVuelosService {
 		ArrayList<VueloDTO> vuelos = new ArrayList<>();
 		ArrayList<VueloDTO> vuelos_server = new ArrayList<>();
 		for (TipoAerolineas tipo : TipoAerolineas.values()) {
-			vuelos_server = (ArrayList<VueloDTO>) VueloAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(tipo).buscarVuelos(origen, destino, fecha, num_pasajeros));
+			try {
+				vuelos_server = (ArrayList<VueloDTO>) VueloAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(tipo).buscarVuelos(origen, destino, fecha, num_pasajeros));
+			} catch (RemoteException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
 			for (VueloDTO vD : vuelos_server) {
 				vuelos.add(vD);
 			}
