@@ -18,8 +18,8 @@ import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 
 public class GatewayVueling implements IGatewayAerolinea{
 	//comunicación mediante socket
-	private String remoteServerIP;
-	private int remoteServerPort;
+	private String remoteServerIP = "127.0.0.1";
+	private int remoteServerPort = 3000;
 	private ArrayList<Vuelo> vuelos;
 	private Vuelo vuelo;
 	
@@ -58,7 +58,7 @@ public class GatewayVueling implements IGatewayAerolinea{
 				DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 				DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
 				
-				String request = origen.getNombre() + "#" + destino.getNombre() + "#" + fecha + "#" + num_pasajeros;
+				String request = origen.getCod_aeropuerto() + "#" + destino.getCod_aeropuerto() + "#" + fecha + "#" + num_pasajeros;
 				System.out.println("    -> Vuelos request:" + request);
 				out.writeUTF(request);
 				
@@ -137,13 +137,11 @@ public class GatewayVueling implements IGatewayAerolinea{
 	         try {
 				vuelo.setSalida(new SimpleDateFormat("dd/MM/yyyy").parse(salida));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	         try {
 				vuelo.setLlegada(new SimpleDateFormat("dd/MM/yyyy").parse(llegada));
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 	         vuelos.add(vuelo);       

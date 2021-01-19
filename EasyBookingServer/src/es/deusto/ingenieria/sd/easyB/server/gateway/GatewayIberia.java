@@ -27,7 +27,7 @@ public class GatewayIberia implements IGatewayAerolinea{
     		String name = "//" + ip + ":" + port + "/" + serviceName;
     		this.service = (IIberia) Naming.lookup(name);
      	} catch (Exception ex) {
-    		System.err.println("#ERROR looking up for the remote service: " + ex);
+    		System.err.println("# ERROR looking up for the remote service: " + ex);
     	}
 	}
 
@@ -36,7 +36,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 		ArrayList<Vuelo> vuelos = new ArrayList<>();
 		inicializarServicio();
 		try {
-			for (VueloServ vueloserv : this.service.buscarVuelos(origen.getNombre(), destino.getNombre(), fecha ,num_pasajeros)) {
+			for (VueloServ vueloserv : this.service.buscarVuelos(origen.getCod_aeropuerto(), destino.getCod_aeropuerto(), fecha ,num_pasajeros)) {
 				Vuelo v1 = new Vuelo();
 				v1.setCod_vuelo(vueloserv.getCod_vuelo());
 				for( Aeropuerto ae : DBManager.getInstance().getAeropuertos()) {

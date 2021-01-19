@@ -33,13 +33,15 @@ public class BusquedaVuelosService {
 	}
 		
 	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {	
+		System.out.println(" ** Appservice de Busqueda de Vuelos:");
 		ArrayList<VueloDTO> vuelos = new ArrayList<>();
 		ArrayList<VueloDTO> vuelos_server = new ArrayList<>();
 		for (TipoAerolineas tipo : TipoAerolineas.values()) {
 			try {
 				vuelos_server = (ArrayList<VueloDTO>) VueloAssembler.getInstance().entityToDTO(FactGatewayAerolinea.getInstance().createGateway(tipo).buscarVuelos(origen, destino, fecha, num_pasajeros));
+				System.out.println(" *** RECUPERANDO LOS VUUELOS DE " + String.valueOf(tipo));
+				
 			} catch (RemoteException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 			}
 			for (VueloDTO vD : vuelos_server) {
