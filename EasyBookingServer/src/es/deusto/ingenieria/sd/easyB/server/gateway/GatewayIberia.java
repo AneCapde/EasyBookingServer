@@ -5,17 +5,20 @@ import java.rmi.RemoteException;
 import java.util.ArrayList;
 import java.util.Date;
 
+import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
+import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 import iberia.server.remote.IIberia;
+import iberia.server.remote.VueloServ;
 import paypal.server.remote.IPayPal;
 
 public class GatewayIberia implements IGatewayAerolinea{
 	
 	private String ip = "127.0.0.1";
-	private int port = 2001;
+	private int port = 1099;
 	private String serviceName = "Iberia";
 	private IIberia service;
 	
@@ -28,23 +31,31 @@ public class GatewayIberia implements IGatewayAerolinea{
     	}
 	}
 
-	//comprobar este metodo
 	@Override
 	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) throws RemoteException{
-		ArrayList<Vuelo> vuelos = null;
-		//aqui no se muy bien que pasarle (tengo el problema con los aeropuertos)
+		ArrayList<Vuelo> vuelos = new ArrayList<>();
 		try {
-			if(this.service.buscarVuelos(origen.getNombre(), destino.getNombre(), fecha,num_pasajeros)) {
-				for (Vuelo vuelo : vuelos) {
-					vuelo.setOrigen(origen);
-					vuelo.setDestino(destino);
-					vuelo.setSalida(fecha);
-					//falta el numero de pasajeros 
+			for (VueloServ vueloserv : this.service.buscarVuelos(origen.getNombre(), destino.getNombre(), fecha ,num_pasajeros)) {
+				Vuelo v1 = new Vuelo();
+				v1.setCod_vuelo(vueloserv.getCod_vuelo());
+				for( Aeropuerto ae : DBManager.getInstance().getAeropuertos()) {
+					if (ae.getCod_aeropuerto().equals(vueloserv.getDestino())) {
+						v1.setDestino(ae);
+					}
+					if (ae.getCod_aeropuerto().equals(vueloserv.getOrigen())) {
+						v1.setOrigen(ae);
+					}
 				}
-				
-			}
+				v1.setPrecio(vueloserv.getPrecio());
+				Aerolinea aerolinea = new Aerolinea();
+				aerolinea.setCod_aero("IBE");
+				aerolinea.setNombre("Iberia");
+				v1.setAerolinea(aerolinea);
+				v1.setSalida(vueloserv.getSalida());
+				v1.setLlegada(vueloserv.getLlegada());
+				vuelos.add(v1);	
+			}	
 		} catch (RemoteException e) {
-			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
 		return vuelos;
@@ -52,8 +63,8 @@ public class GatewayIberia implements IGatewayAerolinea{
 
 	@Override
 	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros)throws RemoteException  {
-		Reserva reserva = null;
-		if (this.service.reservarVuelo(vuelo.getCod_vuelo())) {
+		if (this.service.reservarVuelo(vuelo.getCod_vuelo(), num_pasajeros)) {
+			Reserva reserva = new Reserva();
 			reserva.setFecha(fecha);
 			reserva.setImporte(importe);
 			reserva.setNombre_pasajeros(nombre_pasajeros);
@@ -63,7 +74,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 		}else {
 			System.out.println("No se ha podido realizar la reserva");
 		}
-		return reserva;
+		return null;
 	}
 
 }

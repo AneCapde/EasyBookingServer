@@ -52,8 +52,6 @@
         </schematool>
     </target>
 	
-	<!-- Revisado // crear clase LocalDataBaseTest(cambiar el nombre de main) -->
-	
 	<target name="5.local.test" description="Runs local repository test">
 		<java classname="es.deusto.ingenieria.sd.easyB.server.jdo.LocalDataBaseTest" classpathref="classpath" fork="true">
 			<jvmarg value="-Dlog4j.configuration=log4j.properties"/>

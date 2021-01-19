@@ -4,7 +4,7 @@ import java.util.ArrayList;
 
 public class Aerolinea {
 
-	private int cod_aero;
+	private String cod_aero;
 	private String nombre;	
 	private ArrayList<Vuelo> vuelos = new ArrayList<>();
 	
@@ -20,10 +20,10 @@ public class Aerolinea {
 	public void setNombre(String nombre) {
 		this.nombre = nombre;
 	}
-	public int getCod_aero() {
+	public String getCod_aero() {
 		return cod_aero;
 	}
-	public void setCod_aero(int cod_aero) {
+	public void setCod_aero(String cod_aero) {
 		this.cod_aero = cod_aero;
 	}
 	
