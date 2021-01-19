@@ -30,7 +30,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 
 	//comprobar este metodo
 	@Override
-	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
+	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) throws RemoteException{
 		ArrayList<Vuelo> vuelos = null;
 		//aqui no se muy bien que pasarle (tengo el problema con los aeropuertos)
 		try {
