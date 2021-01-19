@@ -4,6 +4,7 @@ import java.rmi.RemoteException;
 import java.rmi.server.UnicastRemoteObject;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
@@ -81,6 +82,7 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 
 	@Override
 	public boolean realizarPago(String email, String password, double cantidad) throws RemoteException {
+		System.out.println(" * RemoteFaçade Realizando pago: ");
 		if (ReservaVuelosService.getInstance().realizarPago(email, password, cantidad)) {
 			return true;
 		}else {
@@ -91,7 +93,7 @@ public class EasyBookingRemoteFacade extends UnicastRemoteObject implements IEas
 	@Override
 	public ArrayList<AeropuertoDTO> getAeropuertos() throws RemoteException {
 		System.out.println(" * RemoteFaçade getAeropuertos: ");
-		return (ArrayList<AeropuertoDTO>) BusquedaVuelosService.getInstance().getAeropuertos();
+		return (ArrayList<AeropuertoDTO>) LoginService.getInstance().getAeropuertos();
 	}
 
 

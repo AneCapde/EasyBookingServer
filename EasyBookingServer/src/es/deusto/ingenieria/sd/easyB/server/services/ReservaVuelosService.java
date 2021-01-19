@@ -36,10 +36,6 @@ public class ReservaVuelosService {
 		return instance;
 	}
 	
-	public List<AeropuertoDTO> getAeropuertos() {
-		return AeropuertoAssembler.getInstance().entityToDTO(DBManager.getInstance().getAeropuertos());
-	}
-	
 	public boolean reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
 		TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
 		Reserva r = null;
@@ -78,7 +74,9 @@ public class ReservaVuelosService {
 		return false;
 		
 	}
-	
+	public List<AeropuertoDTO> getAeropuertos() {
+		return AeropuertoAssembler.getInstance().entityToDTO(DBManager.getInstance().getAeropuertos());
+	}
 	
 	
 }

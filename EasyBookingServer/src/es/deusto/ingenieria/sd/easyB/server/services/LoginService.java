@@ -1,11 +1,14 @@
 package es.deusto.ingenieria.sd.easyB.server.services;
 
 import java.rmi.RemoteException;
+import java.util.List;
 
 import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.SistemaAutorizacion;
 import es.deusto.ingenieria.sd.easyB.server.data.Usuario;
+import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoAssembler;
+import es.deusto.ingenieria.sd.easyB.server.data.dto.AeropuertoDTO;
 import es.deusto.ingenieria.sd.easyB.server.gateway.GatewayGoogle;
 
 public class LoginService {
@@ -20,9 +23,10 @@ public class LoginService {
 		return instance;
 	}
 
-	public boolean registrarUsuario(String email, String contraseña, String tipoPago, String aeroPref) {
+	public boolean registrarUsuario(String email, String password, String tipoPago, String aeroPref) {
 		try {
-			if (GatewayGoogle.getInstance().registrarUsuario(email, contraseña)) {
+			System.out.println(" * AppService Registrando Usuario: (+ " + email+ ")");
+			if (GatewayGoogle.getInstance().registrarUsuario(email, password)) {
 				Usuario u = new Usuario();
 				u.setEmail(email);
 				String nombre = email.substring( 0, email.indexOf("@"));
@@ -55,5 +59,8 @@ public class LoginService {
 		}
 		return false;
 		
+	}
+	public List<AeropuertoDTO> getAeropuertos() {
+		return AeropuertoAssembler.getInstance().entityToDTO(DBManager.getInstance().getAeropuertos());
 	}
 }

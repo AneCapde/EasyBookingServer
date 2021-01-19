@@ -22,7 +22,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 	private String serviceName = "Iberia";
 	private IIberia service;
 	
-	public GatewayIberia() {
+	public void inicializarServicio()  {
 		try {
     		String name = "//" + ip + ":" + port + "/" + serviceName;
     		this.service = (IIberia) Naming.lookup(name);
@@ -34,6 +34,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 	@Override
 	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) throws RemoteException{
 		ArrayList<Vuelo> vuelos = new ArrayList<>();
+		inicializarServicio();
 		try {
 			for (VueloServ vueloserv : this.service.buscarVuelos(origen.getNombre(), destino.getNombre(), fecha ,num_pasajeros)) {
 				Vuelo v1 = new Vuelo();
@@ -63,6 +64,7 @@ public class GatewayIberia implements IGatewayAerolinea{
 
 	@Override
 	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros)throws RemoteException  {
+		inicializarServicio();
 		if (this.service.reservarVuelo(vuelo.getCod_vuelo(), num_pasajeros)) {
 			Reserva reserva = new Reserva();
 			reserva.setFecha(fecha);

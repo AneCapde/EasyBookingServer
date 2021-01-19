@@ -31,10 +31,6 @@ public class BusquedaVuelosService {
 
 		return instance;
 	}
-	
-	public List<AeropuertoDTO> getAeropuertos() {
-		return AeropuertoAssembler.getInstance().entityToDTO(DBManager.getInstance().getAeropuertos());
-	}
 		
 	public ArrayList<VueloDTO> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {	
 		ArrayList<VueloDTO> vuelos = new ArrayList<>();
@@ -51,6 +47,9 @@ public class BusquedaVuelosService {
 			}
 		}
 		return vuelos;
+	}
+	public List<AeropuertoDTO> getAeropuertos() {
+		return AeropuertoAssembler.getInstance().entityToDTO(DBManager.getInstance().getAeropuertos());
 	}
 
 }
