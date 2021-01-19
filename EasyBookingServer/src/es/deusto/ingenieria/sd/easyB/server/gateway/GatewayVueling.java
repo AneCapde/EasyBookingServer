@@ -3,9 +3,13 @@ package es.deusto.ingenieria.sd.easyB.server.gateway;
 import java.io.DataInputStream;
 import java.io.DataOutputStream;
 import java.net.Socket;
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.StringTokenizer;
 
+import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
 import es.deusto.ingenieria.sd.easyB.server.data.Aerolinea;
 import es.deusto.ingenieria.sd.easyB.server.data.Aeropuerto;
 import es.deusto.ingenieria.sd.easyB.server.data.Reserva;
@@ -48,7 +52,7 @@ public class GatewayVueling implements IGatewayAerolinea{
 
 	@Override
 	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
-		ArrayList<Vuelo> vuelos = null;
+		ArrayList<Vuelo> vuelos = new ArrayList<>();
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 				DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
@@ -59,12 +63,8 @@ public class GatewayVueling implements IGatewayAerolinea{
 				out.writeUTF(request);
 				
 				String response = in.readUTF();
+				vuelos = StringtoVuelos(response);
 				System.out.println("    <- Vuelos response:" + response);
-				
-				//esto no se si sobra
-				if(response.startsWith("OK")) {
-					//vuelos = response.substring(response.indexOf('#')+1)
-				}
 							
 		} catch (Exception e) {
 			System.out.println("# Error: " + e.getMessage());
@@ -72,10 +72,10 @@ public class GatewayVueling implements IGatewayAerolinea{
 		return vuelos;
 	}
 	
-	//no se si esta bien (no se como pasarle el nombre de pasajeros)
+	 
 	@Override
 	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
-		Reserva reserva = null;
+		Reserva reserva = new Reserva();
 		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 			DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
@@ -85,12 +85,15 @@ public class GatewayVueling implements IGatewayAerolinea{
 			System.out.println("    -> Vuelo request:" + request);
 			out.writeUTF(request);
 			
-			String response = in.readUTF();
+			boolean response = in.readBoolean();
 			System.out.println("    <- Vuelos response:" + response);
 			
-			//esto no se si sobra
-			if(response.startsWith("OK")) {
-				//vuelos = response.substring(response.indexOf('#')+1)
+			if(response) {
+				reserva.setFecha(fecha);
+				reserva.setImporte(importe);
+				reserva.setNombre_pasajeros(nombre_pasajeros);
+				reserva.setNumero_asientos(num_pasajeros);
+				reserva.setVuelo(vuelo);			
 			}
 					
 		} catch (Exception e) {
@@ -100,6 +103,53 @@ public class GatewayVueling implements IGatewayAerolinea{
 		return reserva;
 	}
 	
+	public ArrayList<Vuelo> StringtoVuelos(String datosVuelos){
+		ArrayList<Vuelo> vuelos = new ArrayList<>();
+
+	    StringTokenizer tokenizerVuelo = new StringTokenizer(datosVuelos, "$");
+
+	     while (tokenizerVuelo.hasMoreElements()) {
+
+	         StringTokenizer tokenizer = new StringTokenizer(datosVuelos, "#");
+	         String cod_vuelo = tokenizer.nextToken();
+	         String origen = tokenizer.nextToken();
+	         String destino = tokenizer.nextToken();
+	         String llegada = tokenizer.nextToken();
+	         String salida = tokenizer.nextToken();
+	         String precio = tokenizer.nextToken();
+	         
+	         Vuelo vuelo = new Vuelo();
+	         vuelo.setCod_vuelo(cod_vuelo);
+	         for( Aeropuerto ae : DBManager.getInstance().getAeropuertos()) {
+	             if (ae.getCod_aeropuerto().equals(destino)) {
+	                 vuelo.setDestino(ae);
+	             }
+	             if (ae.getCod_aeropuerto().equals(origen)) {
+	                 vuelo.setOrigen(ae);
+	             }
+	         }
+	         
+	         vuelo.setPrecio(Double.parseDouble(precio));
+	         Aerolinea aerolinea = new Aerolinea();
+	         aerolinea.setCod_aero("VLG");
+	         aerolinea.setNombre("Vueling");
+	         vuelo.setAerolinea(aerolinea);
+	         try {
+				vuelo.setSalida(new SimpleDateFormat("dd/MM/yyyy").parse(salida));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	         try {
+				vuelo.setLlegada(new SimpleDateFormat("dd/MM/yyyy").parse(llegada));
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+			}
+	         vuelos.add(vuelo);       
+	}
+		return vuelos;
+	}
 	
 }
 

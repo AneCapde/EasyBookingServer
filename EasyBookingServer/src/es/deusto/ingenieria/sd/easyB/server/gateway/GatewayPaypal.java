@@ -8,7 +8,7 @@ import paypal.server.remote.IPayPal;
 public class GatewayPaypal implements IGatewayPago{
 	
 	private String ip = "127.0.0.1";
-	private int port = 2000;
+	private int port = 1099;
 	private String serviceName = "PayPal";
 	private IPayPal service;
 	private static IGatewayPago instance;
