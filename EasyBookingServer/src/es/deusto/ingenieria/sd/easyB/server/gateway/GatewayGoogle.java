@@ -9,7 +9,7 @@ import google.server.remote.IGoogle;
 public class GatewayGoogle implements IGatewayAutorizacion{
 
 	private String ip = "127.0.0.1";
-	private int port = 2001;
+	private int port = 1099;
 	private String serviceName = "Google";
 	private IGoogle service;
 	private static IGatewayAutorizacion instance;
