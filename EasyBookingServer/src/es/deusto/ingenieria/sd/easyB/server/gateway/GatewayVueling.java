@@ -107,6 +107,8 @@ public class GatewayVueling implements IGatewayAerolinea{
 		ArrayList<Vuelo> vuelos = new ArrayList<>();
 
 	    StringTokenizer tokenizerVuelo = new StringTokenizer(datosVuelos, "$");
+	    
+	    ArrayList<Aeropuerto> aeropuertos =  (ArrayList<Aeropuerto>) DBManager.getInstance().getAeropuertos();
 
 	     while (tokenizerVuelo.hasMoreElements()) {
 
@@ -120,7 +122,8 @@ public class GatewayVueling implements IGatewayAerolinea{
 	         
 	         Vuelo vuelo = new Vuelo();
 	         vuelo.setCod_vuelo(cod_vuelo);
-	         for( Aeropuerto ae : DBManager.getInstance().getAeropuertos()) {
+	         for( Aeropuerto ae : aeropuertos) {
+	        	 System.out.println();
 	             if (ae.getCod_aeropuerto().equals(destino)) {
 	                 vuelo.setDestino(ae);
 	             }
@@ -135,12 +138,12 @@ public class GatewayVueling implements IGatewayAerolinea{
 	         aerolinea.setNombre("Vueling");
 	         vuelo.setAerolinea(aerolinea);
 	         try {
-				vuelo.setSalida(new SimpleDateFormat("dd/MM/yyyy").parse(salida));
+				vuelo.setSalida(new SimpleDateFormat("dd/MM/yyyy").parse("14/02/2020"));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
 	         try {
-				vuelo.setLlegada(new SimpleDateFormat("dd/MM/yyyy").parse(llegada));
+				vuelo.setLlegada(new SimpleDateFormat("dd/MM/yyyy").parse("14/02/2020"));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
