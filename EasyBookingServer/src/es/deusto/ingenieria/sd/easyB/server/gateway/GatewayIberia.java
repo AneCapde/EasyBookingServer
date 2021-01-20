@@ -54,6 +54,9 @@ public class GatewayIberia implements IGatewayAerolinea{
 				v1.setSalida(vueloserv.getSalida());
 				v1.setLlegada(vueloserv.getLlegada());
 				vuelos.add(v1);	
+				for (Vuelo v : vuelos) {
+					DBManager.getInstance().store(v);
+				}
 			}	
 		} catch (RemoteException e) {
 			e.printStackTrace();

@@ -7,6 +7,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.Locale;
 import java.util.StringTokenizer;
 
 import es.deusto.ingenieria.sd.easyB.server.dao.DBManager;
@@ -17,7 +18,6 @@ import es.deusto.ingenieria.sd.easyB.server.data.Vuelo;
 import es.deusto.ingenieria.sd.easyB.server.data.dto.VueloDTO;
 
 public class GatewayVueling implements IGatewayAerolinea{
-	//comunicación mediante socket
 	private String remoteServerIP = "127.0.0.1";
 	private int remoteServerPort = 3000;
 	private ArrayList<Vuelo> vuelos;
@@ -53,7 +53,6 @@ public class GatewayVueling implements IGatewayAerolinea{
 	@Override
 	public ArrayList<Vuelo> buscarVuelos(Aeropuerto origen, Aeropuerto destino, Date fecha, int num_pasajeros) {
 		ArrayList<Vuelo> vuelos = new ArrayList<>();
-		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 				DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 				DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
@@ -75,8 +74,6 @@ public class GatewayVueling implements IGatewayAerolinea{
 	 
 	@Override
 	public Reserva reservarVuelo(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
-		Reserva reserva = new Reserva();
-		//Abrimos socket
 		try (Socket tcpSocket = new Socket(this.remoteServerIP, this.remoteServerPort);
 			DataInputStream in = new DataInputStream(tcpSocket.getInputStream());
 			DataOutputStream out = new DataOutputStream(tcpSocket.getOutputStream())) {
@@ -89,67 +86,81 @@ public class GatewayVueling implements IGatewayAerolinea{
 			System.out.println("    <- Vuelos response:" + response);
 			
 			if(response) {
+				Reserva reserva = new Reserva();
 				reserva.setFecha(fecha);
 				reserva.setImporte(importe);
 				reserva.setNombre_pasajeros(nombre_pasajeros);
 				reserva.setNumero_asientos(num_pasajeros);
-				reserva.setVuelo(vuelo);			
+				reserva.setVuelo(vuelo);
+				System.out.println("Se ha realizado la reserva correctamente");
+				return reserva;
+			}else {
+				System.out.println("No se ha podido realiazar la reserva");
 			}
 					
 		} catch (Exception e) {
 			System.out.println("# Error: " + e.getMessage());
 		}
+		return null;
 		
-		return reserva;
 	}
 	
 	public ArrayList<Vuelo> StringtoVuelos(String datosVuelos){
 		ArrayList<Vuelo> vuelos = new ArrayList<>();
-
-	    StringTokenizer tokenizerVuelo = new StringTokenizer(datosVuelos, "$");
-	    
+		StringTokenizer tokenizerVuelo = new StringTokenizer(datosVuelos, "$");
 	    ArrayList<Aeropuerto> aeropuertos =  (ArrayList<Aeropuerto>) DBManager.getInstance().getAeropuertos();
-
-	     while (tokenizerVuelo.hasMoreElements()) {
-
-	         StringTokenizer tokenizer = new StringTokenizer(datosVuelos, "#");
-	         String cod_vuelo = tokenizer.nextToken();
-	         String origen = tokenizer.nextToken();
-	         String destino = tokenizer.nextToken();
-	         String llegada = tokenizer.nextToken();
-	         String salida = tokenizer.nextToken();
-	         String precio = tokenizer.nextToken();
+	    int count = tokenizerVuelo.countTokens();
+	    
+	    while (tokenizerVuelo.hasMoreElements()) {
+	    	StringTokenizer tokenizer = new StringTokenizer(datosVuelos, "#");
+	        String cod_vuelo = tokenizer.nextToken();
+	        String origen = tokenizer.nextToken();
+	        String destino = tokenizer.nextToken();
+	        String llegada = tokenizer.nextToken();
+	        String salida = tokenizer.nextToken();
+	        String precio = tokenizer.nextToken();
 	         
-	         Vuelo vuelo = new Vuelo();
-	         vuelo.setCod_vuelo(cod_vuelo);
-	         for( Aeropuerto ae : aeropuertos) {
-	        	 System.out.println();
-	             if (ae.getCod_aeropuerto().equals(destino)) {
-	                 vuelo.setDestino(ae);
-	             }
-	             if (ae.getCod_aeropuerto().equals(origen)) {
-	                 vuelo.setOrigen(ae);
-	             }
-	         }
+	        Vuelo vuelo = new Vuelo();
+	        vuelo.setCod_vuelo(cod_vuelo);
+	        for( Aeropuerto ae : aeropuertos) {
+	            if (ae.getCod_aeropuerto().equals(destino)) {
+	                vuelo.setDestino(ae);
+	            }
+	            if (ae.getCod_aeropuerto().equals(origen)) {
+	                vuelo.setOrigen(ae);
+	            }
+	        }
 	         
-	         vuelo.setPrecio(Double.parseDouble(precio));
-	         Aerolinea aerolinea = new Aerolinea();
-	         aerolinea.setCod_aero("VLG");
-	         aerolinea.setNombre("Vueling");
-	         vuelo.setAerolinea(aerolinea);
-	         try {
-				vuelo.setSalida(new SimpleDateFormat("dd/MM/yyyy").parse("14/02/2020"));
+	        vuelo.setPrecio(Double.parseDouble(precio));
+	        Aerolinea aerolinea = new Aerolinea();
+	        aerolinea.setCod_aero("VLG");
+	        aerolinea.setNombre("Vueling");
+	        vuelo.setAerolinea(aerolinea);
+	        try {
+	        	vuelo.setSalida(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.UK).parse(salida));
+	        } catch (ParseException e) {
+				e.printStackTrace();
+			}
+	        try {
+				vuelo.setLlegada(new SimpleDateFormat("EEE MMM dd HH:mm:ss z yyyy", Locale.UK).parse(llegada));
 			} catch (ParseException e) {
 				e.printStackTrace();
 			}
-	         try {
-				vuelo.setLlegada(new SimpleDateFormat("dd/MM/yyyy").parse("14/02/2020"));
-			} catch (ParseException e) {
-				e.printStackTrace();
-			}
-	         vuelos.add(vuelo);       
+	        
+	        vuelos.add(vuelo);      
+	        
+	        if (count <= 6) {
+	        	System.out.println(count);
+	        	break;
+	        }else {
+	        	System.out.println(count);
+	        	count -=6;
+	        }
 	}
-		return vuelos;
+	for (Vuelo v : vuelos) {
+		DBManager.getInstance().store(v);
+	}
+	return vuelos;
 	}
 	
 }
