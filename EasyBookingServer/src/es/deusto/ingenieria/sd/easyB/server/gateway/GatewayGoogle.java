@@ -14,7 +14,7 @@ public class GatewayGoogle implements IGatewayAutorizacion{
 	private IGoogle service;
 	private static IGatewayAutorizacion instance;
 	
-	public void inicializarServicio() {
+	public GatewayGoogle() {
 		try {
 			String name = "//" + ip + ":" + port + "/" + serviceName;
 			this.service = (IGoogle) Naming.lookup(name);
@@ -32,7 +32,7 @@ public class GatewayGoogle implements IGatewayAutorizacion{
 	
 	@Override
 	public boolean login(String email, String password) {
-		this.inicializarServicio();
+		//this.inicializarServicio();
 		try {
 			if (this.service.login(email, password)) {
 				System.out.println("Se ha realizado el login correctamente");
@@ -49,8 +49,7 @@ public class GatewayGoogle implements IGatewayAutorizacion{
 	
 	@Override
 	public boolean registrarUsuario(String email, String password) {
-		this.inicializarServicio();
-		System.out.println(" * Conectandose al servicio de Google");
+		//this.inicializarServicio();
 		try {
 			if (this.service.registrarUsuario(email, password)) {
 				System.out.println("Se ha realizado el registro correctamente");
