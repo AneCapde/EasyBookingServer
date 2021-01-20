@@ -38,13 +38,17 @@ public class ReservaVuelosService {
 	
 	public boolean reservaVuelos(Vuelo vuelo, double importe, int num_pasajeros, Date fecha, ArrayList<String> nombre_pasajeros) {
 		TipoAerolineas aerolinea = TipoAerolineas.valueOf(vuelo.getAerolinea().getNombre()); 
-		Reserva r = null;
 		try {
+			System.out.println(vuelo.toString());
+			for (String s : nombre_pasajeros) {
+				System.out.println(s);		
+			}
+			Reserva r = new Reserva();
 			r = FactGatewayAerolinea.getInstance().createGateway(aerolinea).reservarVuelo(vuelo, importe, num_pasajeros, fecha, nombre_pasajeros);
 			r.setVuelo(vuelo);
 			Pago p = new Pago();
 			r.setPago(p);
-			DBManager.getInstance().store(r);
+			//DBManager.getInstance().store(r);
 			return true;
 		} catch (RemoteException e) {
 			e.printStackTrace();

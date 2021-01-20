@@ -71,10 +71,11 @@ public class GatewayIberia implements IGatewayAerolinea{
 			reserva.setNumero_asientos(num_pasajeros);
 			reserva.setVuelo(vuelo);
 			System.out.println("Se ha realizado la reserva correctamente");
+			return reserva;
 		}else {
 			System.out.println("No se ha podido realizar la reserva");
+			return null;
 		}
-		return null;
 	}
 
 }
